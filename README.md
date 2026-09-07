@@ -2,9 +2,13 @@
 
 Interactive daylight reconstruction of 3014 Cleveland Avenue NW. Both floors and the property share an enclosed meter-scale scene. The browser traces the same geometry, textures and HDR lighting as Blender Cycles.
 
+## Remote desktop GPU and phone
+
+Use the private GitHub portable release and START-DAYLIGHT.cmd. It opens a local NVIDIA GPU dashboard with no Tailscale requirement. Use the dashboard through existing Moonlight, or enable optional Web browser via Tailscale in Connection options. Its website pairing link remembers the chosen computer on the phone. The published Sites root is now a lightweight connection launcher and never automatically loads the path tracer. See MOVE-TO-ANOTHER-PC.md for both connection modes, pairing, startup and shutdown.
+
 ## Run
 
-Requires Node 20.19+ or 22.12+. Run npm ci, then npm run dev. Open http://127.0.0.1:5173/. npm run build writes dist. The existing owner-private Site identity remains in .openai/hosting.json.
+Requires Node 20.19+ or 22.12+. Run npm ci, then npm run dev. Open http://127.0.0.1:5173/ for the connection page or /render.html for explicit rendering on this device. npm run build writes dist. The existing owner-private Site identity remains in .openai/hosting.json.
 
 Drag to look, tap floor/ground to teleport, use WASD/arrows or the touch pad. Floor buttons, labeled maps and shortcuts cover indoors and outdoors. Orbit retains all roof and ceiling obstructions. Four seasonal dates and three local times provide 12 atmospheric skies without interpolation. Local time uses America/New_York DST rules.
 

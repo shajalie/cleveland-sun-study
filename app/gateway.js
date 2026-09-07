@@ -1,0 +1,9 @@
+import './gateway.css';
+const $=id=>document.getElementById(id),key='cleveland-render-computer-v1';let saved,timer;
+export function validateLink(value){const u=new URL(value);if(u.protocol!=='https:'||u.username||u.password||u.pathname!=='/'||u.search||!/^#[A-Za-z0-9_-]{32}$/.test(u.hash))throw Error('Paste the complete private HTTPS connection link from the PC dashboard.');return u.href;}
+function show(connection){saved=connection;$('connect').hidden=true;$('saved').hidden=false;$('computer').textContent='Render computer · '+new URL(connection.url).hostname.split('.')[0];$('open-stream').href=connection.url;}
+function remember(url,auto){const connection={url:validateLink(url),auto};try{localStorage.setItem(key,JSON.stringify(connection));}catch{$('error').textContent='This browser cannot remember the computer. You can still open its stream.';}show(connection);return connection;}
+function openSoon(){let seconds=3;const tick=()=>{$('opening').textContent='Opening your PC stream in '+seconds+'…';if(seconds--===0){clearInterval(timer);location.replace(saved.url);}};tick();timer=setInterval(tick,1000);}
+$('change').onclick=()=>{clearInterval(timer);$('opening').textContent='';$('saved').hidden=true;$('connect').hidden=false;$('host-link').value=saved?.url||'';$('auto').checked=!!saved?.auto;};
+$('connect').onsubmit=e=>{e.preventDefault();try{const c=remember($('host-link').value.trim(),$('auto').checked);location.assign(c.url);}catch(e){$('error').textContent=e.message;}};
+try{const incoming=new URLSearchParams(location.hash.slice(1)).get('host');if(incoming){history.replaceState(null,'',location.pathname);remember(incoming,true);openSoon();}else{const stored=localStorage.getItem(key);if(stored){const c=JSON.parse(stored);c.url=validateLink(c.url);show(c);if(c.auto&&!new URLSearchParams(location.search).has('settings'))openSoon();}}}catch(e){$('error').textContent=e.message;}

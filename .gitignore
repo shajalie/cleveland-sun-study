@@ -13,3 +13,8 @@ zenith.png
 nadir.png
 dist/
 __pycache__/
+
+!cleveland-daylight.blend
+
+.runtime/
+runtime/

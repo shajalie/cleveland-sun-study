@@ -1,5 +1,5 @@
 const fs=require('fs'),vm=require('vm'),{createCanvas,Image}=require('/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/@napi-rs/canvas');
-const source=fs.readFileSync('dist/index.html','utf8'),els={},events={},wEvents={};
+const source=fs.readFileSync('dist/render.html','utf8'),els={},events={},wEvents={};
 function element(){return {style:{},children:[],classList:{toggle(){}},append(...children){this.children.push(...children)},appendChild(child){this.children.push(child);if(child.id)els[child.id]=child;},replaceChildren(){this.children=[];},setAttribute(){},addEventListener(){},getContext:()=>createCanvas(960,580).getContext('2d')};}
 for(const m of source.matchAll(/id="([^"]+)"[^>]*>/g)){const v=m[0].match(/value="([^"]*)"/);els[m[1]]={...element(),value:v?v[1]:'',style:{},innerHTML:'',textContent:'',open:false,checked:/checked/.test(m[0]),hidden:false,appendChild:element().appendChild,addEventListener(){},dispatchEvent(e){if(this['on'+e.type])this['on'+e.type](e)},setAttribute(){}};}
 for(const p of ['cs','ci']){els[p+'-view'].value='3d';els[p+'-mode'].value='now';els[p+'-canopy'].value='full';els[p+'-data'].textContent=source.match(new RegExp('<script id="'+p+'-data"[^>]*>([\\s\\S]*?)<\\/script>'))[1];const c=createCanvas(736,490);c.clientWidth=736;c.clientHeight=490;els[p+'-map']=c;}

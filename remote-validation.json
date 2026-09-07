@@ -1,0 +1,19 @@
+{
+  "testedAt": "2026-09-07T20:45:47.250Z",
+  "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2060 with Max-Q Design (0x00001F12) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "jpegFramesReceived": 12,
+  "checks": [
+    "Unauthenticated state and control rejected",
+    "Foreign Origin pairing rejected",
+    "Invalid pairing key rejected",
+    "Authenticated JPEG stream carries real image data",
+    "Unknown controls rejected",
+    "Upstairs navigation and clear/overcast changes applied on host",
+    "Single-tap walking changes position",
+    "Movement stops after heartbeat loss"
+  ],
+  "limitations": [
+    "Tested on RTX 2060 Max-Q; RTX 5090 is not connected to this workspace",
+    "Private tailnet browser tested separately from this local API test"
+  ]
+}

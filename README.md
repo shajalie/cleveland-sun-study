@@ -2,6 +2,10 @@
 
 Interactive daylight reconstruction of 3014 Cleveland Avenue NW. Both floors and the property share an enclosed meter-scale scene. The browser traces the same geometry, textures and HDR lighting as Blender Cycles.
 
+## Remote desktop GPU and phone
+
+For a phone view computed on the desktop GPU, use the private GitHub portable release and START-DAYLIGHT.cmd. The release includes Node, dependencies, the built app, and the packed Blender scene. See MOVE-TO-ANOTHER-PC.md for first-time Tailscale pairing, startup, shutdown and the GPU check. The original Sites URL continues to render on the viewing device.
+
 ## Run
 
 Requires Node 20.19+ or 22.12+. Run npm ci, then npm run dev. Open http://127.0.0.1:5173/. npm run build writes dist. The existing owner-private Site identity remains in .openai/hosting.json.

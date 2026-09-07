@@ -6,7 +6,7 @@
 3. Double-click START-DAYLIGHT.cmd. The launcher selects High performance for Edge/Chrome, starts an isolated NVIDIA render browser, checks the actual GPU, and opens a control page.
 4. Choose Connect phone. Open its private link or scan its QR code on the phone.
 
-The Windows host needs Microsoft Edge or Chrome and Tailscale. Install/sign into Tailscale on the host and phone once, using the same private network or an explicitly shared host. The release bundles Node and JavaScript dependencies; Node, Python, Docker and Blender installations are unnecessary for the walkthrough. Tailscale can require a one-time HTTPS authorization during initial setup.
+The Windows host needs Google Chrome (preferred; Edge is a fallback) and Tailscale. Install/sign into Tailscale on the host and phone once, using the same private network or an explicitly shared host. The release bundles Node and JavaScript dependencies; Node, Python, Docker and Blender installations are unnecessary for the walkthrough. Tailscale can require a one-time HTTPS authorization during initial setup.
 
 Keep the computer, host process and Tailscale running. The launcher prevents Windows sleep while the render host runs. STOP-DAYLIGHT.cmd stops this host and its isolated browser. The launcher retains existing unrelated Tailscale mappings and uses an available private port. It never enables public Funnel access.
 

@@ -1,7 +1,7 @@
 {
-  "testedAt": "2026-09-07T20:18:32.436Z",
+  "testedAt": "2026-09-07T20:33:49.785Z",
   "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2060 with Max-Q Design (0x00001F12) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-  "jpegFramesReceived": 11,
+  "jpegFramesReceived": 44,
   "checks": [
     "Unauthenticated state and control rejected",
     "Foreign Origin pairing rejected",
@@ -15,12 +15,5 @@
   "limitations": [
     "Tested on RTX 2060 Max-Q; RTX 5090 is not connected to this workspace",
     "Private tailnet browser tested separately from this local API test"
-  ],
-  "browserChecks": [
-    "Private Tailscale HTTPS URL loaded and authenticated",
-    "Live JPEG frames displayed in phone-sized browser view",
-    "Room select moved host to Sunroom",
-    "Dragging streamed image changed upstairs viewing direction",
-    "Connect phone produced the correct private QR/link"
   ]
 }

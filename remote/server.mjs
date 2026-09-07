@@ -39,6 +39,7 @@ const server=http.createServer(async(req,res)=>{try{
   if(!authorized(req))return json(res,401,{error:'Pair this browser'});let config={};try{config=JSON.parse((await fs.readFile(path.join(runtime,'connection.json'),'utf8')).replace(/^\uFEFF/,''));}catch{}
   const url=(config.phone_url||`http://127.0.0.1:${port}/`)+'#'+token;return json(res,200,{url,private:!!config.phone_url,qr:await QRCode.toDataURL(url,{width:300,margin:2})});
  }
+ if(u.pathname==='/methods'||u.pathname==='/validation-results.json'||u.pathname.startsWith('/references/')){if(!authorized(req))return json(res,401,{error:'Pair this browser'});return staticFile(res,path.join(root,'dist'),u.pathname==='/methods'?'validation.html':decodeURIComponent(u.pathname).slice(1));}
  const files={'/':'client.html','/client.js':'client.js','/style.css':'style.css'};
  if(files[u.pathname])return staticFile(res,path.join(root,'remote'),files[u.pathname]);
  json(res,404,{error:'Not found'});
@@ -81,9 +82,16 @@ await new Promise((resolve,reject)=>server.once('error',reject).listen(port,proc
 await fs.writeFile(stateFile,JSON.stringify({token,pid:process.pid,port,renderPort,started:new Date().toISOString()},null,2));
 console.log(`HOST_LISTENING http://127.0.0.1:${port}/`);
 async function startRenderer(){try{
- const candidates=[process.env.DAYLIGHT_BROWSER,'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','C:/Program Files/Microsoft/Edge/Application/msedge.exe','C:/Program Files/Google/Chrome/Application/chrome.exe'].filter(Boolean);
- let executablePath;for(const file of candidates){try{await fs.access(file);executablePath=file;break;}catch{}}if(!executablePath)throw Error('Install Microsoft Edge or set DAYLIGHT_BROWSER to your Chromium browser executable.');
- browser=await puppeteer.launch({executablePath,headless:true,pipe:true,userDataDir:path.join(runtime,'render-profile'),defaultViewport:{width:960,height:720,deviceScaleFactor:1},args:['--enable-gpu','--force-high-performance-gpu','--use-angle=d3d11','--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows'],timeout:60000});
+ const candidates=[...new Set([process.env.DAYLIGHT_BROWSER,'C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',process.env.LOCALAPPDATA&&path.join(process.env.LOCALAPPDATA,'Google/Chrome/Application/chrome.exe'),'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','C:/Program Files/Microsoft/Edge/Application/msedge.exe'].filter(Boolean))];
+ const launchErrors=[];
+ for(const executablePath of candidates){
+  try{await fs.access(executablePath);}catch{continue;}
+  try{
+   browser=await puppeteer.launch({executablePath,headless:true,pipe:true,userDataDir:path.join(runtime,/msedge/i.test(executablePath)?'render-profile':'chrome-render-profile'),defaultViewport:{width:960,height:720,deviceScaleFactor:1},args:['--enable-gpu','--force-high-performance-gpu','--use-angle=d3d11','--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows'],timeout:60000});
+   console.log('BROWSER_STARTED '+executablePath);break;
+  }catch(e){launchErrors.push(path.basename(executablePath)+': '+e.message);console.warn('BROWSER_RETRY '+path.basename(executablePath));}
+ }
+ if(!browser)throw Error('No render browser could start. Install or update Google Chrome, then rerun START-DAYLIGHT.cmd. '+launchErrors.join('; '));
  page=await browser.newPage();await page.goto(`http://127.0.0.1:${renderPort}/`,{waitUntil:'domcontentloaded'});
  await page.waitForFunction(()=>window.study?.state.ready,{timeout:120000});
  gpu=await page.evaluate(()=>{const gl=window.study.renderer.getContext(),e=gl.getExtension('WEBGL_debug_renderer_info');return e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL):'Unknown GPU';});

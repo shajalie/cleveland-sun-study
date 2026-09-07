@@ -12,16 +12,20 @@ if (-not (Test-Path -LiteralPath (Join-Path $projectDir 'node_modules\puppeteer-
     & npm ci
     if ($LASTEXITCODE -ne 0) { throw 'Dependency installation failed.' }
 }
-$browserExe = @('C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe','C:\Program Files\Microsoft\Edge\Application\msedge.exe','C:\Program Files\Google\Chrome\Application\chrome.exe') | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
-if (-not $browserExe) { throw 'Microsoft Edge or Google Chrome must be installed on the render computer.' }
+$browserCandidates = @('C:\Program Files\Google\Chrome\Application\chrome.exe','C:\Program Files (x86)\Google\Chrome\Application\chrome.exe',(Join-Path $env:LOCALAPPDATA 'Google\Chrome\Application\chrome.exe'),'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe','C:\Program Files\Microsoft\Edge\Application\msedge.exe') | Where-Object { Test-Path -LiteralPath $_ }
+if (-not $browserCandidates) { throw 'Install Google Chrome on the render computer, then rerun START-DAYLIGHT.cmd.' }
 $gpuKey = 'HKCU:\Software\Microsoft\DirectX\UserGpuPreferences'
 New-Item -Path $gpuKey -Force | Out-Null
-$oldPreference = (Get-ItemProperty -LiteralPath $gpuKey -Name $browserExe -ErrorAction SilentlyContinue).$browserExe
+$preferences = @()
+foreach ($browserExe in $browserCandidates) {
+    $oldPreference = (Get-ItemProperty -LiteralPath $gpuKey -Name $browserExe -ErrorAction SilentlyContinue).$browserExe
+    $preferences += @{browser=$browserExe;previous=$oldPreference}
+    $newPreference = 'GpuPreference=2;' + ([string]$oldPreference -replace 'GpuPreference=\d+;','')
+    New-ItemProperty -LiteralPath $gpuKey -Name $browserExe -Value $newPreference -PropertyType String -Force | Out-Null
+}
 $backupPath = Join-Path $runtimeDir 'gpu-preference-before.json'
-if (-not (Test-Path -LiteralPath $backupPath)) { @{browser=$browserExe;previous=$oldPreference} | ConvertTo-Json | Set-Content -LiteralPath $backupPath -Encoding UTF8 }
-$newPreference = 'GpuPreference=2;' + ([string]$oldPreference -replace 'GpuPreference=\d+;','')
-New-ItemProperty -LiteralPath $gpuKey -Name $browserExe -Value $newPreference -PropertyType String -Force | Out-Null
-$env:DAYLIGHT_BROWSER = $browserExe
+if (-not (Test-Path -LiteralPath $backupPath)) { $preferences | ConvertTo-Json | Set-Content -LiteralPath $backupPath -Encoding UTF8 }
+$env:DAYLIGHT_BROWSER = @($browserCandidates)[0]
 $env:DAYLIGHT_BIND = if ($UseDockerBridge) { '0.0.0.0' } else { '127.0.0.1' }
 Write-Host 'Dedicated GPU preference selected. Starting the daylight renderer...'
 $running = $false

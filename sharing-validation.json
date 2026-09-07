@@ -1,0 +1,14 @@
+{
+  "testedAt": "2026-09-07T21:33:12.691Z",
+  "liveCloudflareProvisioning": true,
+  "individualEmailAllowlist": true,
+  "tunnelHealthy": true,
+  "protectedOrigin": true,
+  "unauthenticatedRequestRedirectedToEmailSignIn": true,
+  "authenticatedExternalStreamTested": true,
+  "emailCodeLoginTested": true,
+  "remoteFloorControlTested": true,
+  "clientBrowser": "Chrome",
+  "rendererGpu": "NVIDIA GeForce RTX 2060 with Max-Q Design",
+  "rtx5090Tested": false
+}

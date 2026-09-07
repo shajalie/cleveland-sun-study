@@ -7,6 +7,8 @@ import puppeteer from 'puppeteer-core';
 import {WebSocketServer,WebSocket} from 'ws';
 import QRCode from 'qrcode';
 import {execFile} from 'node:child_process';
+import {SharingManager} from './sharing.mjs';
+import {createAccessVerifier} from './sharing-auth.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const runtime=path.join(root,'.runtime');await fs.mkdir(runtime,{recursive:true});
@@ -15,23 +17,35 @@ const stateFile=path.join(runtime,'host.json');let saved={};try{saved=JSON.parse
 const token=saved.token||randomBytes(24).toString('base64url');
 let browser,page,gpu='',ready=false,failure='',lastStatus={},closing=false;
 let connectionJob={busy:false,error:''};
-const localDashboard=req=>['127.0.0.1','::1','::ffff:127.0.0.1'].includes(req.socket.remoteAddress)&&['127.0.0.1','localhost','[::1]'].includes(new URL('http://'+req.headers.host).hostname);
+const localDashboard=req=>!req.websiteConnection&&['127.0.0.1','::1','::ffff:127.0.0.1'].includes(req.socket.remoteAddress)&&['127.0.0.1','localhost','[::1]'].includes(new URL('http://'+req.headers.host).hostname);
 const clients=new Set(),keys=new Set();let lastInput=0,commandQueue=Promise.resolve(),statusBusy=false;const streamStats={frames:0,bytes:0,lastFrameAt:null};
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.svg':'image/svg+xml','.glb':'model/gltf-binary','.hdr':'application/octet-stream'};
 const equal=(a,b)=>typeof a==='string'&&a.length===b.length&&timingSafeEqual(Buffer.from(a),Buffer.from(b));
 const cookie=req=>(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('daylight='))?.slice(9);
-const authorized=req=>equal(cookie(req),token);
+const authorized=req=>!!req.websiteIdentity||(!req.websiteConnection&&equal(cookie(req),token));
 const originOK=req=>!req.headers.origin||(()=>{try{return new URL(req.headers.origin).host===req.headers.host;}catch{return false;}})();
 function json(res,code,value){res.writeHead(code,{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(JSON.stringify(value));}
-async function body(req){let text='';for await(const chunk of req){text+=chunk;if(text.length>2048)throw Error('Request too large');}return JSON.parse(text||'{}');}
+async function body(req){let text='';for await(const chunk of req){text+=chunk;if(text.length>16384)throw Error('Request too large');}return JSON.parse(text||'{}');}
 async function staticFile(res,base,relative){try{const file=path.resolve(base,relative);if(!file.startsWith(base+path.sep))return json(res,403,{error:'Forbidden'});const bytes=await fs.readFile(file);res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream','X-Content-Type-Options':'nosniff','Cache-Control':'no-cache'});res.end(bytes);}catch{json(res,404,{error:'Not found'});}}
 const sceneServer=http.createServer((req,res)=>{const u=new URL(req.url,'http://localhost');staticFile(res,path.join(root,'dist'),u.pathname==='/'?'index.html':decodeURIComponent(u.pathname).slice(1));});
 await new Promise((resolve,reject)=>sceneServer.once('error',reject).listen(renderPort,'127.0.0.1',resolve));
+const sharingPort=Number(process.env.DAYLIGHT_SHARING_PORT||5184);
+const sharing=await new SharingManager(root,{originPort:sharingPort,onChange:()=>{for(const ws of clients)if(ws.identity&&(!sharing.config.enabled||!sharing.config.emails.includes(ws.identity.email)))ws.close(1008,'Access removed');}}).init();
+const verifyWebsite=createAccessVerifier(()=>sharing.config);
 const attempts=new Map();
-const server=http.createServer(async(req,res)=>{try{
+const handleRequest=async(req,res)=>{try{
  const u=new URL(req.url,'http://localhost');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('X-Frame-Options','DENY');
  if(u.pathname==='/health')return json(res,200,{service:'cleveland-daylight-host',pid:process.pid,ready});
+ if(u.pathname==='/api/sharing-qr'){if(!authorized(req)||!localDashboard(req)||!sharing.config.enabled)return json(res,403,{error:'Sharing unavailable'});const bytes=await QRCode.toBuffer('https://'+sharing.config.hostname+'/',{width:260,margin:2});res.writeHead(200,{'Content-Type':'image/png','Cache-Control':'no-store'});return res.end(bytes);}
+ if(u.pathname==='/api/sharing'){
+  if(!authorized(req)||!localDashboard(req)||!originOK(req))return json(res,403,{error:'Website sharing is managed only from the local PC dashboard.'});
+  if(req.method==='GET')return json(res,200,sharing.status());
+  if(req.method!=='POST')return json(res,405,{error:'Method not allowed'});
+  const b=await body(req);if(!['enable','disable','emails'].includes(b.action))return json(res,400,{error:'Invalid sharing action'});
+  sharing.run(()=>b.action==='enable'?sharing.configure(b):b.action==='disable'?sharing.disable():sharing.updateEmails(b.emails));return json(res,202,{busy:true});
+ }
  if(u.pathname==='/api/connect'&&req.method==='POST'){
+  if(req.websiteConnection)return json(res,403,{error:'Sign in with an approved email through the website.'});
   if(!originOK(req))return json(res,403,{error:'Origin denied'});
   const ip=req.socket.remoteAddress,attempt=attempts.get(ip)||{count:0,since:Date.now()};if(Date.now()-attempt.since>60000){attempt.count=0;attempt.since=Date.now();}if(attempt.count>=12)return json(res,429,{error:'Try again in a minute'});
   const b=await body(req);if(!equal(b.token,token)){attempt.count++;attempts.set(ip,attempt);return json(res,401,{error:'Incorrect pairing key'});}attempts.delete(ip);
@@ -48,18 +62,23 @@ const server=http.createServer(async(req,res)=>{try{
   return json(res,202,{busy:true});
  }
  if(u.pathname==='/api/connection'){
+  if(req.websiteIdentity)return json(res,200,{url:'https://'+sharing.config.hostname+'/',websiteUrl:'https://'+sharing.config.hostname+'/',private:false,canConfigure:false,job:{busy:false,error:''}});
   if(!authorized(req))return json(res,401,{error:'Pair this browser'});let config={};try{config=JSON.parse((await fs.readFile(path.join(runtime,'connection.json'),'utf8')).replace(/^\uFEFF/,''));}catch{}
   const url=config.phone_url?config.phone_url+'#'+token:null;
   const websiteUrl=url?'https://cleveland-sun-study.sammyhajalie2g.chatgpt.site/#host='+encodeURIComponent(url):null;
   return json(res,200,{url,websiteUrl,private:!!url,canConfigure:localDashboard(req),job:connectionJob,qr:url?await QRCode.toDataURL(websiteUrl,{width:300,margin:2}):null});
  }
  if(u.pathname==='/methods'||u.pathname==='/validation-results.json'||u.pathname.startsWith('/references/')){if(!authorized(req))return json(res,401,{error:'Pair this browser'});return staticFile(res,path.join(root,'dist'),u.pathname==='/methods'?'validation.html':decodeURIComponent(u.pathname).slice(1));}
- const files={'/':'client.html','/client.js':'client.js','/style.css':'style.css'};
+ const files={'/':'client.html','/client.js':'client.js','/style.css':'style.css','/sharing-ui.js':'sharing-ui.js'};
  if(files[u.pathname])return staticFile(res,path.join(root,'remote'),files[u.pathname]);
  json(res,404,{error:'Not found'});
- }catch(e){json(res,400,{error:e.message});}});
+ }catch(e){json(res,400,{error:e.message});}};
+const server=http.createServer(handleRequest);
+const websiteServer=http.createServer(async(req,res)=>{req.websiteConnection=true;try{req.websiteIdentity=await verifyWebsite(req);}catch{return json(res,403,{error:'Website sharing is off or this email is not authorized.'});}return handleRequest(req,res);});
+await new Promise((resolve,reject)=>websiteServer.once('error',reject).listen(sharingPort,'127.0.0.1',resolve));
 const wss=new WebSocketServer({noServer:true,maxPayload:4096});
-server.on('upgrade',(req,socket,head)=>{if(req.url!=='/control'||!authorized(req)||!originOK(req)){socket.end('HTTP/1.1 401 Unauthorized\r\nConnection: close\r\n\r\n');return;}wss.handleUpgrade(req,socket,head,ws=>wss.emit('connection',ws));});
+const upgrade=(req,socket,head)=>{if(req.url!=='/control'||!authorized(req)||!originOK(req)){socket.end('HTTP/1.1 401 Unauthorized\r\nConnection: close\r\n\r\n');return;}wss.handleUpgrade(req,socket,head,ws=>wss.emit('connection',ws,req));};
+server.on('upgrade',upgrade);websiteServer.on('upgrade',async(req,socket,head)=>{req.websiteConnection=true;try{req.websiteIdentity=await verifyWebsite(req);}catch{socket.end('HTTP/1.1 403 Forbidden\r\nConnection: close\r\n\r\n');return;}upgrade(req,socket,head);});
 function send(ws,obj){if(ws.readyState===WebSocket.OPEN)ws.send(JSON.stringify(obj));}
 async function releaseKeys(){for(const k of keys)await page?.keyboard.up(k).catch(()=>{});keys.clear();}
 const selectIds=new Set(['date','time','places','quality','exposure','canopy','glazing']);
@@ -89,19 +108,19 @@ async function action(a){
   if(!Number.isFinite(a.delta))throw Error('Invalid zoom');await page.mouse.wheel({deltaY:Math.max(-300,Math.min(300,a.delta))});
  }else throw Error('Unknown action');
 }
-wss.on('connection',ws=>{clients.add(ws);send(ws,{type:'status',ready,gpu,failure,stream:streamStats,...lastStatus});ws.on('message',(raw,binary)=>{if(binary)return ws.close(1003);let a;try{a=JSON.parse(raw);}catch{return ws.close(1007);}
- commandQueue=commandQueue.then(()=>action(a)).catch(e=>send(ws,{type:'notice',message:e.message}));
+wss.on('connection',(ws,req)=>{ws.identity=req.websiteIdentity;clients.add(ws);send(ws,{type:'status',ready,gpu,failure,stream:streamStats,...lastStatus});ws.on('message',(raw,binary)=>{if(binary)return ws.close(1003);let a;try{a=JSON.parse(raw);}catch{return ws.close(1007);}
+ commandQueue=commandQueue.then(()=>{if(ws.identity&&(!sharing.config.enabled||!sharing.config.emails.includes(ws.identity.email)||ws.identity.expires<=Date.now()/1000))throw Error('Access removed');return action(a);}).catch(e=>send(ws,{type:'notice',message:e.message}));
  });ws.on('close',()=>{clients.delete(ws);releaseKeys();page?.mouse.up().catch(()=>{});});});
 await new Promise((resolve,reject)=>server.once('error',reject).listen(port,process.env.DAYLIGHT_BIND||'127.0.0.1',resolve));
 await fs.writeFile(stateFile,JSON.stringify({token,pid:process.pid,port,renderPort,started:new Date().toISOString()},null,2));
 console.log(`HOST_LISTENING http://127.0.0.1:${port}/`);
 async function startRenderer(){try{
- const candidates=[...new Set([process.env.DAYLIGHT_BROWSER,'C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',process.env.LOCALAPPDATA&&path.join(process.env.LOCALAPPDATA,'Google/Chrome/Application/chrome.exe'),'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','C:/Program Files/Microsoft/Edge/Application/msedge.exe'].filter(Boolean))];
+ const candidates=[...new Set([process.env.DAYLIGHT_BROWSER,'C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',process.env.LOCALAPPDATA&&path.join(process.env.LOCALAPPDATA,'Google/Chrome/Application/chrome.exe')].filter(Boolean))];
  const launchErrors=[];
  for(const executablePath of candidates){
   try{await fs.access(executablePath);}catch{continue;}
   try{
-   browser=await puppeteer.launch({executablePath,headless:true,pipe:true,userDataDir:path.join(runtime,/msedge/i.test(executablePath)?'render-profile':'chrome-render-profile'),defaultViewport:{width:960,height:720,deviceScaleFactor:1},args:['--enable-gpu','--force-high-performance-gpu','--use-angle=d3d11','--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows'],timeout:60000});
+   browser=await puppeteer.launch({executablePath,headless:true,pipe:true,userDataDir:path.join(runtime,'chrome-render-profile'),defaultViewport:{width:960,height:720,deviceScaleFactor:1},args:['--enable-gpu','--force-high-performance-gpu','--use-angle=d3d11','--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows'],timeout:60000});
    console.log('BROWSER_STARTED '+executablePath);break;
   }catch(e){launchErrors.push(path.basename(executablePath)+': '+e.message);console.warn('BROWSER_RETRY '+path.basename(executablePath));}
  }
@@ -115,11 +134,13 @@ async function startRenderer(){try{
  ready=true;console.log('GPU_VERIFIED '+gpu);
  }catch(e){failure=e.message;console.error('HOST_ERROR '+failure);}}
 startRenderer();
+setInterval(()=>{for(const ws of clients)if(ws.identity&&(!sharing.config.enabled||!sharing.config.emails.includes(ws.identity.email)||ws.identity.expires<=Date.now()/1000))ws.close(1008,'Sign in again');},1000).unref();
+sharing.resume().catch(e=>{sharing.job.error=e.message;});
 setInterval(async()=>{if(!page||!ready||statusBusy)return;statusBusy=true;if(keys.size&&Date.now()-lastInput>1500)await releaseKeys();try{
  lastStatus=await page.evaluate(()=>({state:window.study.state,toast:document.getElementById('toast').hidden?'':document.getElementById('toast').textContent,map:document.getElementById('map').outerHTML,mapTitle:document.getElementById('map-title').textContent,controls:Object.fromEntries(['date','time','places','quality','exposure','canopy','glazing'].map(id=>{const e=document.getElementById(id);return[id,{value:e.value,options:[...e.options].map(o=>({value:o.value,label:o.textContent}))}]})),pressed:Object.fromEntries(['appearance','direct','clear','overcast','main-floor','second-floor','walk','orbit'].map(id=>[id,document.getElementById(id).getAttribute('aria-pressed')==='true']))}));
  for(const ws of clients)send(ws,{type:'status',ready,gpu,failure,...lastStatus});
  }catch(e){failure=e.message;}finally{statusBusy=false;}},1000).unref();
 async function frames(){while(!closing){const started=Date.now();if(ready&&clients.size){try{const frame=await page.screenshot({type:'jpeg',quality:82,encoding:'binary'});streamStats.frames++;streamStats.bytes=frame.length;streamStats.lastFrameAt=new Date().toISOString();for(const ws of clients)if(ws.readyState===WebSocket.OPEN&&ws.bufferedAmount<500000)ws.send(frame,{binary:true});}catch(e){failure=e.message;}}await new Promise(r=>setTimeout(r,Math.max(10,120-(Date.now()-started))));}}
 frames();
-async function close(){if(closing)return;closing=true;await releaseKeys();for(const ws of clients)ws.close();await browser?.close();server.close();sceneServer.close();process.exit(0);}
+async function close(){if(closing)return;closing=true;await releaseKeys();for(const ws of clients)ws.close();await browser?.close();await sharing.stopProcess();server.close();websiteServer.close();sceneServer.close();process.exit(0);}
 process.on('SIGINT',close);process.on('SIGTERM',close);

@@ -3,3 +3,5 @@
 #stream:not([src]){visibility:hidden}
 
 dialog section{border-top:1px solid #40515a;margin-top:18px;padding-top:8px}dialog h3{font-size:18px}dialog p{font-size:14px;line-height:1.5}#website-link{display:block;margin:12px 0}#copy-website{width:100%}button:disabled{opacity:.5;cursor:default}
+
+textarea{width:100%;font:inherit;color:inherit;background:#253740;border:1px solid #59707c;border-radius:6px;padding:10px}#cloudflare-setup input{width:100%}#cloudflare-setup{margin-top:18px}#cloudflare-setup summary{cursor:pointer}#sharing-link-box a{display:block;margin:12px 0}#email-qr{display:block;width:220px;max-width:100%;margin:14px auto}dialog{max-height:90vh;overflow:auto}#sharing-status{overflow-wrap:anywhere}

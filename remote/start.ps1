@@ -12,7 +12,7 @@ if (-not (Test-Path -LiteralPath (Join-Path $projectDir 'node_modules\puppeteer-
     & npm ci
     if ($LASTEXITCODE -ne 0) { throw 'Dependency installation failed.' }
 }
-$browserCandidates = @('C:\Program Files\Google\Chrome\Application\chrome.exe','C:\Program Files (x86)\Google\Chrome\Application\chrome.exe',(Join-Path $env:LOCALAPPDATA 'Google\Chrome\Application\chrome.exe'),'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe','C:\Program Files\Microsoft\Edge\Application\msedge.exe') | Where-Object { Test-Path -LiteralPath $_ }
+$browserCandidates = @('C:\Program Files\Google\Chrome\Application\chrome.exe','C:\Program Files (x86)\Google\Chrome\Application\chrome.exe',(Join-Path $env:LOCALAPPDATA 'Google\Chrome\Application\chrome.exe')) | Where-Object { Test-Path -LiteralPath $_ }
 if (-not $browserCandidates) { throw 'Install Google Chrome on the render computer, then rerun START-DAYLIGHT.cmd.' }
 $gpuKey = 'HKCU:\Software\Microsoft\DirectX\UserGpuPreferences'
 New-Item -Path $gpuKey -Force | Out-Null
@@ -87,7 +87,7 @@ if (-not $LocalOnly -and $UseDockerBridge) {
     Write-Host 'Enable Tailscale on the phone. The computer and Docker Desktop must stay running.'
 }
 Write-Host ''
-Write-Host 'Open this dashboard through Moonlight, or choose Connection options to enable optional Tailscale browser access.'
+Write-Host 'Use this dashboard locally or through Moonlight. Connection options enables email-controlled website sharing or optional Tailscale.'
 Write-Host $localUrl
 Write-Host 'Use STOP-DAYLIGHT.cmd to stop the renderer. Windows sleep is prevented while it runs.'
-if (-not $NoOpen) { Start-Process $localUrl }
+if (-not $NoOpen) { Start-Process -FilePath $env:DAYLIGHT_BROWSER -ArgumentList $localUrl }

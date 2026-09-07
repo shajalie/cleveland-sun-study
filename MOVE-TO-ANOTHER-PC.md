@@ -2,13 +2,16 @@
 
 ## Transfer to the RTX 5090 computer
 1. Download the latest private GitHub release's cleveland-daylight-windows.zip and extract it completely.
-2. Install Google Chrome once if it is absent (Edge is a fallback).
+2. Install Google Chrome once if it is absent.
 3. Double-click START-DAYLIGHT.cmd. The local dashboard opens and verifies the actual NVIDIA GPU. No Tailscale installation, login or network setup is required for this step.
 
 ## Already using Moonlight
 Open this computer's desktop through the existing Moonlight connection, launch START-DAYLIGHT.cmd and use the dashboard. Leave browser access off. Moonlight's existing setup provides the remote connection. This app does not install or configure Moonlight or Sunshine.
 
-## Optional phone web browser access
+## Email-controlled website sharing
+Open Connection options → Website sharing. Enter allowed emails and complete the one-time Cloudflare connection, then enable sharing. Send its dedicated HTTPS link to viewers. Their browsers sign in by email code; no phone app or Tailscale is needed. See WEBSITE-SHARING.md for setup and account permissions.
+
+## Optional Tailscale browser access
 In the PC dashboard, open Connection options and enable Web browser via Tailscale. Only this optional mode needs Tailscale installed and signed in on the computer and phone, on the same private network or an explicitly shared host. Tailscale may require a one-time HTTPS authorization. Setup failure leaves local/Moonlight rendering running.
 
 Scan the website QR code or open Save this PC on the website on your phone once. The website stores that PC's private connection link only in that browser. Later visits to the original website open the saved PC stream automatically. Choose Change computer during the three-second countdown or add ?settings to the website URL to switch computers. Pairing can be repeated after clearing browser data. Disable browser access from the local dashboard to remove only this app's Tailscale Serve mapping; local/Moonlight use continues.

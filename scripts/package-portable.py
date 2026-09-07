@@ -18,7 +18,11 @@ for directory in ['dist','node_modules']:
   if f.is_file() and not f.is_symlink(): entries[f.relative_to(P).as_posix()]=f
 entries['final-render.log']=P/'final-render.log'
 entries['runtime/node.exe']=node
+entries['runtime/cloudflared.exe']=P/'runtime/cloudflared.exe'
+entries['runtime/CLOUDFLARED-LICENSE.txt']=P/'remote/CLOUDFLARED-LICENSE.txt'
 entries['runtime/LICENSE']=P/'remote/NODE-LICENSE.txt'
+connector=json.loads((P/'remote/cloudflared-release.json').read_text())
+assert hashlib.sha256(entries['runtime/cloudflared.exe'].read_bytes()).hexdigest()==connector['sha256'],'Cloudflare connector checksum mismatch'
 for name in ['LICENSE','LICENSE.txt']:
  if (node.parent/name).is_file():entries['runtime/'+name]=node.parent/name
 assert not any('.runtime/' in n or '/.git/' in n or n.startswith('.env') for n in entries)
@@ -27,7 +31,7 @@ with zipfile.ZipFile(output,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6
 with zipfile.ZipFile(output) as z:
  assert z.testzip() is None
  names=set(z.namelist())
- for name in ['START-DAYLIGHT.cmd','remote/server.mjs','runtime/node.exe','node_modules/puppeteer-core/package.json','dist/index.html','dist/render.html','remote/configure-tailscale.ps1','cleveland-daylight.blend','remote-validation.json']:
+ for name in ['START-DAYLIGHT.cmd','remote/server.mjs','runtime/node.exe','runtime/cloudflared.exe','remote/sharing.mjs','remote/sharing-auth.mjs','remote/protect-secret.ps1','node_modules/jose/package.json','node_modules/puppeteer-core/package.json','dist/index.html','dist/render.html','remote/configure-tailscale.ps1','cleveland-daylight.blend','remote-validation.json']:
   assert 'cleveland-daylight/'+name in names,name+' missing'
  assert not any('/.runtime/' in name for name in names)
 report={'file':output.name,'bytes':output.stat().st_size,'sha256':hashlib.sha256(output.read_bytes()).hexdigest(),'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=P).decode().strip(),'files':len(names),'includesCredentials':False,'nodeVersion':subprocess.check_output([str(node),'--version']).decode().strip()}

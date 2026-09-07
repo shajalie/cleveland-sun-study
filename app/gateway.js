@@ -1,6 +1,6 @@
 import './gateway.css';
 const $=id=>document.getElementById(id),key='cleveland-render-computer-v1';let saved,timer;
-export function validateLink(value){const u=new URL(value);if(u.protocol!=='https:'||u.username||u.password||u.pathname!=='/'||u.search||!/^#[A-Za-z0-9_-]{32}$/.test(u.hash))throw Error('Paste the complete private HTTPS connection link from the PC dashboard.');return u.href;}
+export function validateLink(value){const u=new URL(value);if(u.protocol!=='https:'||u.username||u.password||u.pathname!=='/'||u.search||(u.hash&&!/^#[A-Za-z0-9_-]{32}$/.test(u.hash)))throw Error('Paste the complete private HTTPS connection link from the PC dashboard.');return u.href;}
 function show(connection){saved=connection;$('connect').hidden=true;$('saved').hidden=false;$('computer').textContent='Render computer · '+new URL(connection.url).hostname.split('.')[0];$('open-stream').href=connection.url;}
 function remember(url,auto){const connection={url:validateLink(url),auto};try{localStorage.setItem(key,JSON.stringify(connection));}catch{$('error').textContent='This browser cannot remember the computer. You can still open its stream.';}show(connection);return connection;}
 function openSoon(){let seconds=3;const tick=()=>{$('opening').textContent='Opening your PC stream in '+seconds+'…';if(seconds--===0){clearInterval(timer);location.replace(saved.url);}};tick();timer=setInterval(tick,1000);}

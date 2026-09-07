@@ -4,7 +4,7 @@ Interactive daylight reconstruction of 3014 Cleveland Avenue NW. Both floors and
 
 ## Remote desktop GPU and phone
 
-Use the private GitHub portable release and START-DAYLIGHT.cmd. It opens a local NVIDIA GPU dashboard with no Tailscale requirement. Use the dashboard through existing Moonlight, or enable optional Web browser via Tailscale in Connection options. Its website pairing link remembers the chosen computer on the phone. The published Sites root is now a lightweight connection launcher and never automatically loads the path tracer. See MOVE-TO-ANOTHER-PC.md for both connection modes, pairing, startup and shutdown.
+Use the private GitHub portable release and START-DAYLIGHT.cmd. It opens a local NVIDIA GPU dashboard with no Tailscale requirement. Use the dashboard through existing Moonlight, enable email-controlled Website sharing, or use optional Tailscale in Connection options. WEBSITE-SHARING.md describes the Cloudflare account connection and allowed-email controls. Its website pairing link remembers the chosen computer on the phone. The published Sites root is now a lightweight connection launcher and never automatically loads the path tracer. See MOVE-TO-ANOTHER-PC.md for both connection modes, pairing, startup and shutdown.
 
 ## Run
 

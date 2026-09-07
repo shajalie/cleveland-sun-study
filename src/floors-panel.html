@@ -1,0 +1,24 @@
+<section id="panel-floors" class="model-panel" hidden>
+ <div class="walk-heading"><div><h2>Interior · 3D floors</h2><p class="text-small">Orbit the rooms and follow direct sunlight through the windows.</p></div></div>
+ <div class="walk-controls">
+  <label>Floor<select id="fl-floor"><option value="0">Main floor</option><option value="1">Second floor</option></select></label>
+  <label>Date<input id="fl-date" type="date" value="2026-06-21" min="2026-01-01" max="2026-12-31"></label>
+  <label class="walk-time">Time · <output id="fl-clock"></output><input id="fl-time" type="range" min="300" max="1260" step="15" value="840"></label>
+  <button id="fl-play">Play day</button>
+ </div>
+ <div class="floor-layout"><div class="floor-stage">
+  <canvas id="fl-canvas" tabindex="0" aria-label="Orbitable 3D interior floor model. Drag to rotate, pinch or scroll to zoom. Arrow keys rotate, plus and minus zoom."></canvas>
+  <div id="fl-labels" aria-hidden="true"></div>
+  <div class="floor-tools"><button id="fl-reset">Whole floor</button><button id="fl-top">Top view</button><button id="fl-plus" aria-label="Zoom in">+</button><button id="fl-minus" aria-label="Zoom out">−</button></div>
+  <div class="floor-bottom"><span id="fl-sun"></span><span>Drag to orbit · pinch / scroll to zoom</span></div>
+  <div id="fl-error" role="alert" hidden>3D is unavailable in this browser. Use the Inside plan view to explore the same sun calculation.</div>
+ </div><aside class="floor-sidebar"><h3>Rooms</h3><p class="text-small">Select to focus · % of floor in direct sun now</p><div id="fl-rooms"></div><p class="text-small floor-footnote">No direct sun patch does not mean a dark room. Diffuse daylight is not calculated.</p></aside></div>
+ <div class="floor-settings">
+  <label class="form-label">Display wall height · <output id="fl-height-label">1.2 m / 3.9 ft</output><input id="fl-height" type="range" min="0.2" max="3" step="0.1" value="1.2"></label>
+  <label><input id="fl-label-toggle" type="checkbox" checked> Room labels</label>
+  <label><input id="fl-trees" type="checkbox" checked> Tree shade</label>
+  <label>Interior doors <select id="fl-doors"><option value="open">Open</option><option value="closed">Closed</option></select></label>
+ </div>
+ <div class="floor-legend"><span><i style="background:#ffc65c"></i>Direct sun</span><span><i style="background:#628293"></i>No direct sun</span><span><i style="background:#1f91bf"></i>Windows / glass doors</span><span><i style="background:#29a65f"></i>Open passages</span></div>
+ <p class="text-small model-note">Arrow shows incoming sunlight direction. Open-roof display; sunlight still respects full walls and ceilings. Approximate floor plan and window dimensions, clear glazing, empty rooms. Main and second floors modeled; basement excluded because window-well geometry is unverified. Photos and assumptions are in the Inside tab.</p>
+</section>

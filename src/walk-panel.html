@@ -1,17 +1,17 @@
 <section id="panel-walk" class="model-panel" hidden>
  <div class="walk-heading"><div><h2>Walk through</h2><p class="text-small">Approximate geometry · empty rooms · clear glazing</p></div><span id="walk-location" aria-live="polite">Backyard</span></div>
  <div class="walk-controls">
-  <label>Start / level<select id="walk-start"><option value="yard">Backyard · pool</option><option value="terrace">Sitting terrace</option><option value="front">Front lawn</option><option value="foyer">Main floor · foyer</option><option value="study">Main floor · study</option><option value="primary">Second floor · primary</option><option value="sunroom">Second floor · sunroom</option></select></label>
+  <label>Jump to a room / yard<select id="walk-start"><option value="yard">Backyard · pool</option><option value="terrace">Sitting terrace</option><option value="front">Front lawn</option><option value="foyer">Main floor · foyer</option><option value="study">Main floor · study</option><option value="primary">Second floor · primary</option><option value="sunroom">Second floor · sunroom</option></select></label>
   <label>Date<input type="date" id="walk-date" min="2026-01-01" max="2026-12-31" value="2026-06-21"></label>
   <label class="walk-time">Time <span id="walk-clock"></span><input type="range" id="walk-time" min="300" max="1260" step="15" value="840"></label>
   <button id="walk-restart" type="button">Return to start</button>
  </div>
  <div class="walk-stage">
   <canvas id="walk-canvas" aria-label="First-person view of the house and yards. Drag to look, use WASD or on-screen buttons to move."></canvas>
-  <canvas id="walk-mini" width="140" height="160" aria-label="Position and viewing direction on the floor plan"></canvas><div class="walk-hud"><span id="walk-light">Preparing view…</span><span class="crosshair" aria-hidden="true">+</span><span class="walk-help">Drag to look · WASD / arrows to walk</span></div>
+  <div class="walk-sun-source"><strong id="walk-sun-bearing">☀ Sun direction</strong><span id="walk-sun-altitude"></span></div><canvas id="walk-mini" width="140" height="160" aria-label="Position and viewing direction on the floor plan"></canvas><div class="walk-hud"><span id="walk-light">Preparing view…</span><span class="crosshair" aria-hidden="true">+</span><span class="walk-help">Drag to look · WASD / arrows to walk</span></div>
   <div class="walk-pad" aria-label="Movement controls"><button data-move="forward" aria-label="Walk forward">↑</button><div><button data-move="left" aria-label="Step left">←</button><button data-move="back" aria-label="Walk backward">↓</button><button data-move="right" aria-label="Step right">→</button></div></div>
   <div id="walk-error" role="alert" hidden>This browser could not start the 3D view. The Outside and Inside plan views remain available.</div>
  </div>
  <div class="walk-options"><label><input type="checkbox" id="walk-openings" checked> Highlight windows &amp; openings</label><label><input type="checkbox" id="walk-trees" checked> Tree crowns cast shade</label></div>
- <p class="text-small">Blue frames: glazing · green: open passage · use the level picker for stairs. Floor sun patches are modeled; wall tones are illustrative. Furniture, railings and exact steps are omitted.</p>
+ <p class="text-small">Gold floor patches: direct sun · blue-gray: no direct sun · blue frames: glazing · green: open passage. Use Jump to for any room or yard area; level changes are instant. Floor sun patches are modeled; wall tones are illustrative. Furniture, railings and exact steps are omitted.</p>
 </section>

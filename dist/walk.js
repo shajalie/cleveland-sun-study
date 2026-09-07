@@ -41,6 +41,15 @@
   }
  }
  function ellipsoid(t,color){const n=12,m=8;const p=(i,j)=>{const lon=2*Math.PI*i/n,lat=-Math.PI/2+Math.PI*j/m;return[t.x+t.r*Math.cos(lat)*Math.cos(lon),t.y+t.r*Math.cos(lat)*Math.sin(lon),t.z+t.rz*Math.sin(lat)];};for(let j=0;j<m;j++)for(let i=0;i<n;i++)quad(p(i,j),p(i+1,j),p(i+1,j+1),p(i,j+1),mix(color,[.50,.65,.38],j/m*.2));}
+ // Shared floor mesh for the orbit view, using exactly the same walls and sun samples.
+ function floorMesh(){const saved=positions;positions=[];try{const I=inn.state(),f=I.floor;
+  flat(f.outline,f.base-.04,[.29,.39,.45]);
+  for(const room of f.rooms)flat(room.poly,f.base,[.38,.51,.57]);
+  for(let i=0;i<I.samples.length;i++){const p=I.samples[i],r=.166,c=I.current[i]===0?[1,.777,.36]:[.38,.51,.57];const cell=[[p.x-r,p.y-r],[p.x+r,p.y-r],[p.x+r,p.y+r],[p.x-r,p.y+r]];if(cell.every(q=>inside(q,f.outline)))flat(cell,f.base+.018,c);}
+  function strip(a,b,width,z,c){const dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy);if(!L)return;const x=-dy/L*width/2,y=dx/L*width/2;flat([[a[0]+x,a[1]+y],[b[0]+x,b[1]+y],[b[0]-x,b[1]-y],[a[0]-x,a[1]-y]],z,c);}
+  for(const w of f.walls){wallMesh(w,f);strip(w.a,w.b,.10,f.base+.035,[.19,.29,.34]);for(const h of w.holes)strip(h.a,h.b,.15,f.base+.05,h.window?C.blue:C.green);}
+  return {vertices:new Float32Array(positions),floor:f};
+ }finally{positions=saved;}}
  function rebuild(){if(!gl)return;positions=[];catalog=[];const O=out.state(),I=inn.state();sceneSun=out.sun(+$('walk-time').value,$('walk-date').value);
   flat([[-50,-45],[75,-45],[75,85],[-50,85]],-.08,[.38,.48,.40]);
   const parcel=O.data.parcel.map(p=>p.map(v=>v*F));flat(parcel,0,C.deck);
@@ -52,7 +61,7 @@
    for(const wall of f.walls){wallMesh(wall,f);if(wall.ext){catalog.push({wall,f});if(f===I.data.floors[0])band(wall.a,wall.b,0,f.base,[.70,.71,.65]);if(f===I.data.floors[1])band(wall.a,wall.b,f.base+f.ceiling,7.45,C.wall);}else catalog.push({wall,f});}
   }
   // The active floor uses the same ray/window model as the indoor plan.
-  for(let i=0;i<I.samples.length;i++){const p=I.samples[i],c=litColor(C.wood,I.current[i]===0);flat([[p.x-.17,p.y-.17],[p.x+.17,p.y-.17],[p.x+.17,p.y+.17],[p.x-.17,p.y+.17]],I.floor.base+.03,c);}
+  for(let i=0;i<I.samples.length;i++){const p=I.samples[i],c=I.current[i]===0?[1,.777,.36]:[.38,.51,.57];flat([[p.x-.17,p.y-.17],[p.x+.17,p.y-.17],[p.x+.17,p.y+.17],[p.x-.17,p.y+.17]],I.floor.base+.03,c);}
   for(const b of O.obstacles.filter(b=>b.kind==='porch')){flat(b.poly,b.height,[.87,.87,.82]);for(const p of b.poly.slice(0,-1)){const r=.12;flat([[p[0]-r,p[1]-r],[p[0]+r,p[1]-r],[p[0]+r,p[1]+r],[p[0]-r,p[1]+r]],b.height,C.wall);band([p[0]-.1,p[1]],[p[0]+.1,p[1]],0,b.height,C.wall);}}
   const main=O.obstacles.find(b=>b.kind==='main'),r=main.poly,cx=r.reduce((n,p)=>n+p[0],0)/r.length,cy=r.reduce((n,p)=>n+p[1],0)/r.length,inner=r.map(p=>[cx+(p[0]-cx)*.55,cy+(p[1]-cy)*.6]);
   for(let i=0;i<r.length;i++)quad([...r[i],7.45],[...r[(i+1)%r.length],7.45],[...inner[(i+1)%r.length],9],[...inner[i],9],C.roof);flat(inner,9,[.83,.81,.75]);
@@ -76,17 +85,23 @@
    let pass=false;for(const hole of wall.holes){const hx=hole.b[0]-hole.a[0],hy=hole.b[1]-hole.a[1],L=Math.hypot(hx,hy),u=((x-hole.a[0])*hx+(y-hole.a[1])*hy)/(L*L),q=holeInfo(hole);if(u>.18/L&&u<1-.18/L&&q.lo<.1&&q.open&&(!hole.window||hole.floorGlass)){pass=true;break;}}if(!pass)return false;
   }return true;
  }
- function spawn(){const n=$('walk-start').value,floors=inn.state().data.floors;upper=n==='primary'||n==='sunroom';const idx=upper?'1':'0';if($('ci-floor').value!==idx){$('ci-floor').value=idx;$('ci-floor').dispatchEvent(new Event('change'));}
-  const room=(i,name)=>floors[i].rooms.find(r=>r.name===name).label;
-  const starts={yard:[10.8,34,Math.PI],terrace:[14,29,0],front:[9,6,0],foyer:[...room(0,'Foyer'),0],study:[...room(0,'Study'),0],primary:[...room(1,'Primary bedroom'),0],sunroom:[...room(1,'Sunroom'),0]};const a=starts[n];player.x=a[0];player.y=a[1];player.yaw=a[2];player.pitch=-.08;setHeight();dirty=true;
+ const jumpPoints=new Map();
+ function populateJumps(){const select=$('walk-start');select.replaceChildren();
+  function group(label){const el=document.createElement('optgroup');el.label=label;select.appendChild(el);return el;}
+  function add(parent,id,label,x,y,yaw,level){jumpPoints.set(id,{x,y,yaw,level});const o=document.createElement('option');o.value=id;o.textContent=label;parent.appendChild(o);}
+  const yard=group('Outside');add(yard,'yard','Backyard · beside pool',10.8,34,Math.PI,0);add(yard,'terrace','Upper sitting terrace',14,29,0,0);add(yard,'front','Front lawn',9,6,0,0);
+  const O=out.state();for(const i of [1,2,4,6,8]){const z=O.data.zones[i],samples=O.samples.filter(p=>p.zi===i);if(!samples.length)continue;const center=z.poly.reduce((p,q)=>[p[0]+q[0]*F/z.poly.length,p[1]+q[1]*F/z.poly.length],[0,0]);const pt=samples.reduce((best,p)=>Math.hypot(p.x-center[0],p.y-center[1])<Math.hypot(best.x-center[0],best.y-center[1])?p:best);add(yard,'zone-'+i,z.name.replace(' (inferred edges)',''),pt.x,pt.y,0,0);}
+  inn.state().data.floors.forEach((f,level)=>{const g=group(f.name);f.rooms.forEach((r,i)=>add(g,'room-'+level+'-'+i,r.name,...r.label,0,level));});select.value='yard';
  }
+ function spawn(){const p=jumpPoints.get($('walk-start').value)||jumpPoints.get('yard');upper=p.level===1;const idx=upper?'1':'0';if($('ci-floor').value!==idx){$('ci-floor').value=idx;$('ci-floor').dispatchEvent(new Event('change'));}player.x=p.x;player.y=p.y;player.yaw=p.yaw;player.pitch=-.08;setHeight();dirty=true;lastHud=-Infinity;}
  function setHeight(){const f=floorNow(),isIn=inside([player.x,player.y],f.outline);player.z=(upper?f.base:isIn?f.base:0)+eyeHeight;}
  function sync(){if(syncing)return;syncing=true;const date=$('walk-date').value,time=$('walk-time').value;if(!date){syncing=false;return;}
   for(const prefix of ['cs','ci']){$(prefix+'-date').value=date;$(prefix+'-time').value=time;$(prefix+'-canopy').value=$('walk-trees').checked?'full':'none';}out.update();inn.update();dirty=true;syncing=false;
  }
  function hud(){const f=floorNow(),room=inside([player.x,player.y],f.outline)?f.rooms.find(r=>inside([player.x,player.y],r.poly)):null;$('walk-location').textContent=room?(upper?'Second · ':'Main · ')+room.name:'Outside';
   drawMini(room);const s=sceneSun,shade=room?inn.state().indoorShade({x:player.x,y:player.y,z:player.z-f.base},s):out.shade({x:player.x,y:player.y,z:player.z},s);$('walk-light').textContent=shade===0?'Direct sun at eye level':shade===3?'Sun below horizon':shade===2?'Tree shade at eye level':'No direct sun at eye level';
-  const m=+$('walk-time').value,hr=Math.floor(m/60);$('walk-clock').textContent=`${hr%12||12}:${String(m%60).padStart(2,'0')} ${hr>=12?'PM':'AM'} ${s.tz||'EDT'}`;
+  const m=+$('walk-time').value,hr=Math.floor(m/60);$('walk-light').classList.toggle('is-sunny',shade===0);const rel=Math.atan2(Math.sin(Math.atan2(s.x,s.y)-player.yaw),Math.cos(Math.atan2(s.x,s.y)-player.yaw)),deg=rel*180/Math.PI,side=Math.abs(deg)>135?'Behind you':Math.abs(deg)<45?'Ahead':deg>0?'To your right':'To your left',arrow=Math.abs(deg)>135?'↓':Math.abs(deg)<45?'↑':deg>0?'→':'←';$('walk-sun-bearing').textContent=s.z<=0?'☾ Sun below horizon':`☀ ${arrow} ${side}`;$('walk-sun-altitude').textContent=s.z<=0?'No direct sun outdoors or inside':`Source: ${Math.round(s.az)}° compass bearing · ${Math.round(s.alt)}° up. ${shade===0?'Direct sun reaches this position.':'Direct sun is blocked here.'}`;
+  $('walk-clock').textContent=`${hr%12||12}:${String(m%60).padStart(2,'0')} ${hr>=12?'PM':'AM'} ${s.tz||'EDT'}`;
  }
  function drawMini(room){const c=$('walk-mini'),ctx=c.getContext('2d');if(!ctx)return;const O=out.state(),f=floorNow(),r=room?f.outline:O.data.parcel.map(p=>p.map(v=>v*F));const xs=r.map(p=>p[0]),ys=r.map(p=>p[1]),loX=Math.min(...xs),hiX=Math.max(...xs),loY=Math.min(...ys),hiY=Math.max(...ys),scale=Math.min(116/(hiX-loX),132/(hiY-loY)),X=x=>70+(x-(hiX+loX)/2)*scale,Y=y=>80-(y-(hiY+loY)/2)*scale;ctx.clearRect(0,0,140,160);ctx.lineWidth=1;ctx.strokeStyle='#657b89';ctx.fillStyle='#e5edf1';ctx.beginPath();r.forEach((p,i)=>i?ctx.lineTo(X(p[0]),Y(p[1])):ctx.moveTo(X(p[0]),Y(p[1])));ctx.closePath();ctx.fill();ctx.stroke();for(const wall of f.walls){ctx.strokeStyle='#657b89';ctx.beginPath();ctx.moveTo(X(wall.a[0]),Y(wall.a[1]));ctx.lineTo(X(wall.b[0]),Y(wall.b[1]));ctx.stroke();if(room)for(const hole of wall.holes){ctx.strokeStyle=hole.window?'#2d8dbc':'#3f8059';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(X(hole.a[0]),Y(hole.a[1]));ctx.lineTo(X(hole.b[0]),Y(hole.b[1]));ctx.stroke();ctx.lineWidth=1;}}const x=X(player.x),y=Y(player.y);ctx.fillStyle='#d97718';ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#d97718';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+Math.sin(player.yaw)*11,y-Math.cos(player.yaw)*11);ctx.stroke();}
  function frame(t){if(!active)return;const dt=Math.min(.05,(t-last)/1000||.016);last=t;
@@ -102,5 +117,6 @@
  document.querySelectorAll('[data-move]').forEach(b=>{b.onpointerdown=e=>{e.preventDefault();b.setPointerCapture(e.pointerId);pressed.add(b.dataset.move);};b.onpointerup=b.onpointercancel=()=>pressed.delete(b.dataset.move);});
  $('walk-start').onchange=spawn;$('walk-restart').onclick=spawn;$('walk-date').onchange=sync;let timeJob=0;$('walk-time').oninput=()=>{clearTimeout(timeJob);timeJob=setTimeout(sync,80);};$('walk-trees').onchange=sync;$('walk-openings').onchange=()=>dirty=true;
  document.addEventListener('sunmodelchange',()=>dirty=true);
- window.ClevelandWalk={activate(){if(active)return;if(!gl&&!init())return;active=true;sync();spawn();raf=requestAnimationFrame(frame);},pause(){active=false;cancelAnimationFrame(raf);pressed.clear();},diagnostics(){return{vertices:count,finite:positions.every(Number.isFinite),player:{...player},active};}};
+ populateJumps();
+ window.ClevelandWalk={floorMesh,jumpLocations:()=>[...jumpPoints.entries()],activate(){if(active)return;if(!gl&&!init())return;active=true;$('walk-date').value=$('ci-date').value;$('walk-time').value=$('ci-time').value;sync();spawn();raf=requestAnimationFrame(frame);},pause(){active=false;cancelAnimationFrame(raf);pressed.clear();},diagnostics(){return{vertices:count,finite:positions.every(Number.isFinite),player:{...player},active};}};
 })();

@@ -1,6 +1,6 @@
 {
   "name": "cleveland-sun-study",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Interactive indoor and outdoor path-traced daylight study with Blender Cycles references",
   "main": "index.js",
   "directories": {
@@ -12,7 +12,8 @@
     "preview": "vite preview --host 127.0.0.1 --port 5173 --strictPort",
     "test": "node scripts/check_assets.mjs",
     "host": "node remote/server.mjs",
-    "test:remote": "node tests/remote-host.mjs"
+    "test:remote": "node tests/remote-host.mjs",
+    "test:connection": "node tests/connection.mjs"
   },
   "keywords": [],
   "author": "",

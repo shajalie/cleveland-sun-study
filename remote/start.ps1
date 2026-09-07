@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param([switch]$LocalOnly,[switch]$NoOpen,[switch]$UseDockerBridge)
+param([switch]$LocalOnly,[switch]$NoOpen,[switch]$UseDockerBridge,[switch]$EnableTailscale)
 $ErrorActionPreference = 'Stop'
 $projectDir = Split-Path $PSScriptRoot -Parent
 $runtimeDir = Join-Path $projectDir '.runtime'
@@ -51,33 +51,9 @@ if (-not $running) {
 }
 $hostState = Get-Content (Join-Path $runtimeDir 'host.json') -Raw | ConvertFrom-Json
 $localUrl = 'http://127.0.0.1:5182/#' + $hostState.token
-if (-not $LocalOnly -and -not $UseDockerBridge) {
-    $tailscaleExe = (Get-Command tailscale -ErrorAction SilentlyContinue).Source
-    if (-not $tailscaleExe -and (Test-Path 'C:\Program Files\Tailscale\tailscale.exe')) { $tailscaleExe = 'C:\Program Files\Tailscale\tailscale.exe' }
-    if (-not $tailscaleExe) { throw 'Install Tailscale on this computer and phone once, sign in, then rerun START-DAYLIGHT.cmd. Download: https://tailscale.com/download/windows' }
-    $tailnetState = (& $tailscaleExe status --json | Out-String) | ConvertFrom-Json
-    if ($tailnetState.BackendState -ne 'Running') {
-        Write-Host 'Sign into the Tailscale Windows app, then rerun START-DAYLIGHT.cmd.'
-        if (-not $NoOpen) { Start-Process 'C:\Program Files\Tailscale\tailscale-ipn.exe' }
-        exit 2
-    }
-    $serveState = (& $tailscaleExe serve status --json | Out-String) | ConvertFrom-Json
-    $phonePort = 0
-    foreach ($candidate in 5182..5192) {
-        $tcp = if ($serveState.TCP) { $serveState.TCP.PSObject.Properties[[string]$candidate] } else { $null }
-        $mappingKey = $tailnetState.Self.DNSName.TrimEnd('.') + ':' + $candidate
-        $mapping = if ($serveState.Web) { $serveState.Web.PSObject.Properties[$mappingKey] } else { $null }
-        $handler = if ($mapping) { $mapping.Value.Handlers.PSObject.Properties['/'].Value } else { $null }
-        if (-not $tcp -or ($handler -and $handler.Proxy -eq 'http://127.0.0.1:5182')) { $phonePort = $candidate; break }
-    }
-    if ($phonePort -eq 0) { throw 'No unused private phone port is available in 5182-5192.' }
-    & $tailscaleExe serve --bg --yes --https=$phonePort http://127.0.0.1:5182
-    if ($LASTEXITCODE -ne 0) { throw 'Tailscale Serve needs attention. Complete any Tailscale HTTPS authorization shown above, then rerun the launcher.' }
-    $phoneBase = 'https://' + $tailnetState.Self.DNSName.TrimEnd('.') + ':' + $phonePort + '/'
-    @{phone_url=$phoneBase} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $runtimeDir 'connection.json') -Encoding UTF8
-    Write-Host 'PRIVATE PHONE LINK (keep private):'
-    Write-Host ($phoneBase + '#' + $hostState.token)
-    Write-Host 'Enable Tailscale on the phone. The render computer must stay running.'
+if ($EnableTailscale -and -not $LocalOnly) {
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'configure-tailscale.ps1') -Action enable
+    if ($LASTEXITCODE -ne 0) { Write-Warning 'Tailscale setup needs attention. The local dashboard is running; use Connection options to retry.' }
 }
 if (-not $LocalOnly -and $UseDockerBridge) {
     $dockerExe = Get-Command docker -ErrorAction SilentlyContinue
@@ -111,7 +87,7 @@ if (-not $LocalOnly -and $UseDockerBridge) {
     Write-Host 'Enable Tailscale on the phone. The computer and Docker Desktop must stay running.'
 }
 Write-Host ''
-Write-Host 'Open the local dashboard and choose Connect phone for its QR code.'
+Write-Host 'Open this dashboard through Moonlight, or choose Connection options to enable optional Tailscale browser access.'
 Write-Host $localUrl
 Write-Host 'Use STOP-DAYLIGHT.cmd to stop the renderer. Windows sleep is prevented while it runs.'
 if (-not $NoOpen) { Start-Process $localUrl }

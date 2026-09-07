@@ -1,7 +1,7 @@
 {
-  "testedAt": "2026-09-07T20:33:49.785Z",
+  "testedAt": "2026-09-07T20:45:47.250Z",
   "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2060 with Max-Q Design (0x00001F12) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-  "jpegFramesReceived": 44,
+  "jpegFramesReceived": 12,
   "checks": [
     "Unauthenticated state and control rejected",
     "Foreign Origin pairing rejected",

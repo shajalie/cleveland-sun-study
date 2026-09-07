@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id);let socket,currentURL,held=new Set(),dragging=false,lastMove=0,lastStatus,everFrame=false;
+const $=id=>document.getElementById(id);let socket,currentURL,held=new Set(),dragging=false,lastMove=0,lastStatus,everFrame=false,frameLoading=false;
 function enableControls(enabled){for(const e of document.querySelectorAll('#app button,#app select'))e.disabled=!enabled;}
 const send=a=>{if(socket?.readyState===1)socket.send(JSON.stringify(a));};
 function notice(message){$('notice').textContent=message;}
@@ -11,7 +11,7 @@ function update(s){lastStatus=s;enableControls(!!s.ready&&socket?.readyState===1
  if(s.map){$('map-wrap').innerHTML=s.map;$('map-title').textContent=s.mapTitle;}
  for(const b of document.querySelectorAll('[data-button]'))if(b.dataset.button in (s.pressed||{}))b.setAttribute('aria-pressed',s.pressed[b.dataset.button]);
 }
-function connect(){enableControls(false);$('pair').hidden=true;$('app').hidden=false;socket=new WebSocket((location.protocol==='https:'?'wss://':'ws://')+location.host+'/control');socket.onmessage=e=>{if(typeof e.data==='string'){const s=JSON.parse(e.data);if(s.type==='notice')notice(s.message);else update(s);return;}const url=URL.createObjectURL(e.data),old=currentURL;currentURL=url;$('stream').onload=()=>{if(old)URL.revokeObjectURL(old);$('waiting').hidden=true;everFrame=true;};$('stream').src=url;};socket.onopen=()=>{enableControls(!!lastStatus?.ready);notice('Connected to the desktop renderer');};socket.onclose=()=>{enableControls(false);held.clear();notice('Connection lost. Reconnecting…');setTimeout(check,2000);};}
+function connect(){enableControls(false);$('pair').hidden=true;$('app').hidden=false;socket=new WebSocket((location.protocol==='https:'?'wss://':'ws://')+location.host+'/control');socket.onmessage=e=>{if(typeof e.data==='string'){const s=JSON.parse(e.data);if(s.type==='notice')notice(s.message);else update(s);return;}if(document.hidden||frameLoading)return;frameLoading=true;const url=URL.createObjectURL(e.data),old=currentURL;currentURL=url;$('stream').onload=()=>{if(old)URL.revokeObjectURL(old);frameLoading=false;$('waiting').hidden=true;everFrame=true;};$('stream').onerror=()=>{if(old)URL.revokeObjectURL(old);URL.revokeObjectURL(url);frameLoading=false;notice('A frame could not load. Waiting for the next image…');};$('stream').src=url;};socket.onopen=()=>{enableControls(!!lastStatus?.ready);notice('Connected to the desktop renderer');};socket.onclose=()=>{enableControls(false);held.clear();notice('Connection lost. Reconnecting…');setTimeout(check,2000);};}
 async function check(){try{const r=await fetch('/api/state');if(r.ok){update(await r.json());connect();}else{$('pair').hidden=false;$('app').hidden=true;}}catch{notice('The render computer is unreachable. Keep it and Tailscale running.');setTimeout(check,3000);}}
 for(const id of ['date','time','places','quality','exposure','canopy','glazing'])$(id).onchange=()=>send({type:'select',id,value:$(id).value});
 for(const b of document.querySelectorAll('[data-button]'))b.onclick=()=>send({type:'button',id:b.dataset.button});
@@ -29,5 +29,22 @@ setInterval(()=>{if(held.size)send({type:'heartbeat'});},500);
 function release(){held.clear();dragging=false;send({type:'release'});}window.addEventListener('blur',release);document.addEventListener('visibilitychange',()=>{if(document.hidden)release();});
 $('map-wrap').onpointerup=e=>{const r=$('map-wrap').querySelector('svg')?.getBoundingClientRect();if(r)send({type:'map',x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height});};
 $('fullscreen').onclick=()=>document.querySelector('.stage').requestFullscreen?.().catch(()=>notice('Rotate the phone for a larger view.'));
-$('share').onclick=async()=>{const r=await fetch('/api/connection');if(!r.ok){$('pair').hidden=false;return;}const c=await r.json();$('qr').src=c.qr;$('phone-link').href=c.url;$('phone-link').textContent=c.url;$('connection-note').textContent=c.private?'Scan this QR code on a phone connected to the same Tailscale network.':'Private phone access is not configured yet. Run START-DAYLIGHT.cmd on the host.';$('connection').showModal();};$('close-share').onclick=()=>$('connection').close();
+let connectionInfo,connectionTimer;
+async function refreshConnection(){
+ const r=await fetch('/api/connection');if(!r.ok){$('pair').hidden=false;return false;}const c=await r.json();connectionInfo=c;
+ $('browser-links').hidden=!c.private;$('enable-tail').hidden=c.private;$('disable-tail').hidden=!c.private;
+ $('enable-tail').disabled=$('disable-tail').disabled=!c.canConfigure||c.job.busy;
+ $('connection-status').textContent=c.job.busy?'Updating browser access…':c.job.error||(c.private?'Private browser access enabled.':'Browser access is off. Moonlight and this PC work now.');
+ $('connection-note').textContent=c.canConfigure?'':'Change connection settings from the PC dashboard, including through Moonlight.';
+ if(c.private){$('qr').src=c.qr;$('website-link').href=c.websiteUrl;$('phone-link').href=c.url;}
+ return c.job.busy;
+}
+$('share').onclick=async()=>{await refreshConnection();$('connection').showModal();};
+$('close-share').onclick=()=>$('connection').close();
+async function setBrowserAccess(enabled){try{
+ const r=await fetch('/api/tailscale',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled})});if(!r.ok)throw Error((await r.json()).error);
+ await refreshConnection();clearInterval(connectionTimer);connectionTimer=setInterval(async()=>{if(!await refreshConnection())clearInterval(connectionTimer);},1000);
+ }catch(e){$('connection-status').textContent=e.message;}}
+$('enable-tail').onclick=()=>setBrowserAccess(true);$('disable-tail').onclick=()=>setBrowserAccess(false);
+$('copy-website').onclick=async()=>{try{await navigator.clipboard.writeText(connectionInfo.websiteUrl);$('connection-status').textContent='Website link copied. Open it on your phone once.';}catch{$('connection-status').textContent='Press and hold the website link to copy it.';}};
 if(location.hash.length>1)pair(location.hash.slice(1)).catch(e=>{$('pair-error').textContent=e.message;});else check();

@@ -1,30 +1,31 @@
-# One-click Windows GPU host
+# Windows GPU host: Moonlight or browser streaming
 
 ## Transfer to the RTX 5090 computer
-1. Download the private GitHub release's cleveland-daylight-windows.zip and send that ZIP to the other computer, or download it there while signed into the authorized GitHub account.
-2. Extract the ZIP completely. Do not run the launcher inside the compressed-folder preview.
-3. Double-click START-DAYLIGHT.cmd. The launcher selects High performance for Edge/Chrome, starts an isolated NVIDIA render browser, checks the actual GPU, and opens a control page.
-4. Choose Connect phone. Open its private link or scan its QR code on the phone.
+1. Download the latest private GitHub release's cleveland-daylight-windows.zip and extract it completely.
+2. Install Google Chrome once if it is absent (Edge is a fallback).
+3. Double-click START-DAYLIGHT.cmd. The local dashboard opens and verifies the actual NVIDIA GPU. No Tailscale installation, login or network setup is required for this step.
 
-The Windows host needs Google Chrome (preferred; Edge is a fallback) and Tailscale. Install/sign into Tailscale on the host and phone once, using the same private network or an explicitly shared host. The release bundles Node and JavaScript dependencies; Node, Python, Docker and Blender installations are unnecessary for the walkthrough. Tailscale can require a one-time HTTPS authorization during initial setup.
+## Already using Moonlight
+Open this computer's desktop through the existing Moonlight connection, launch START-DAYLIGHT.cmd and use the dashboard. Leave browser access off. Moonlight's existing setup provides the remote connection. This app does not install or configure Moonlight or Sunshine.
 
-Keep the computer, host process and Tailscale running. The launcher prevents Windows sleep while the render host runs. STOP-DAYLIGHT.cmd stops this host and its isolated browser. The launcher retains existing unrelated Tailscale mappings and uses an available private port. It never enables public Funnel access.
+## Optional phone web browser access
+In the PC dashboard, open Connection options and enable Web browser via Tailscale. Only this optional mode needs Tailscale installed and signed in on the computer and phone, on the same private network or an explicitly shared host. Tailscale may require a one-time HTTPS authorization. Setup failure leaves local/Moonlight rendering running.
+
+Scan the website QR code or open Save this PC on the website on your phone once. The website stores that PC's private connection link only in that browser. Later visits to the original website open the saved PC stream automatically. Choose Change computer during the three-second countdown or add ?settings to the website URL to switch computers. Pairing can be repeated after clearing browser data. Disable browser access from the local dashboard to remove only this app's Tailscale Serve mapping; local/Moonlight use continues.
 
 ## What runs where
-The host PC traces the light paths. The phone receives JPEG frames and sends only scene controls. It does not run the path tracer. Quality, navigation, seasonal skies, glazing, tree controls and the map operate on the host. One host session has one shared camera. Frame rate and image convergence depend on GPU, scene, connection and selected quality; this is not a promise of 60 fps.
+The published website is a small connection page. It does not load Three.js, the house model, HDR skies or a WebGL renderer. There is no automatic fallback to phone rendering if the computer is offline. The explicit Render on this device link opens the standalone GPU renderer at /render.html.
 
-The separately published Sites URL still renders directly on the device opening it. Use the launcher's private phone link when you want the desktop GPU to do the work.
+Browser streaming opens the chosen computer's private HTTPS page. That PC traces the light paths and sends JPEG frames; the phone sends scene controls. Moonlight streams the PC desktop using its own existing connection. One host session has one shared camera. Frame rate and image convergence depend on GPU, scene, connection and quality; 60 fps is not promised.
 
-The host verifies the actual WebGL GPU and refuses integrated/unknown graphics for this NVIDIA-targeted package. This was tested on the RTX 2060 Max-Q. An RTX 5090 has not been connected here; its GPU name is checked by the same launcher at startup. The launcher stores a backup of the prior browser GPU preference in .runtime/gpu-preference-before.json.
+Keep the PC and renderer running. The launcher prevents Windows sleep while its host runs. STOP-DAYLIGHT.cmd stops this host and isolated browser. Tailscale is needed only while using its browser connection. Public Funnel is never enabled.
 
 ## Pairing and privacy
-The connection link contains a private pairing key. Share it only with intended viewers. Pairing state, browser profiles, credentials and personal Tailscale state are excluded from the ZIP and GitHub. Each extracted copy generates its own key. Control APIs require authentication and same-origin requests; lost control connections release movement keys.
+Connection links contain private pairing keys. Share them only with intended viewers. Browser profiles, credentials, pairing state and personal Tailscale configuration are excluded from GitHub and the ZIP. Each extracted copy generates a key. The hosted site stores a selected connection locally in the viewer's browser, never in the source or a server database. Stream controls require authentication. Network settings can only be changed through the authenticated loopback dashboard, including through Moonlight.
 
-Native Windows Tailscale Serve is the portable default. The original Docker bridge integration is retained as an optional command: powershell -File remote/start.ps1 -UseDockerBridge. The default needs no Docker.
+## Runtime and Blender
+The release bundles Node, JavaScript dependencies, prebuilt assets, complete source and cleveland-daylight.blend with packed textures. Node, Python, Docker and Blender installations are unnecessary for the walkthrough.
 
-## Source checkout and Blender
-For a Git clone, install compatible Node (20.19+ or 22.12+) and run npm ci before START-DAYLIGHT.cmd. npm run dev opens the original direct browser renderer. npm test checks model and reference assets. With the remote host running, node tests/remote-host.mjs checks the streaming/authentication/control path.
+For a Git clone, install Node 22.12+ and run npm ci and npm run build before START-DAYLIGHT.cmd. npm run dev serves the connection page; /render.html is the original renderer. npm test validates model assets. npm run test:remote checks the running stream. The optional older Docker bridge remains available with -UseDockerBridge; it is not the default.
 
-Open cleveland-daylight.blend in Blender 4.5 LTS or compatible newer Blender to edit or rerender. Textures are packed. README.md describes reproducible generation, Cycles rendering and daylight assumptions. A faster GPU improves computation; unmeasured dimensions, glass and trees remain accuracy limits.
-
-Technical references: https://pptr.dev/api/puppeteer.launchoptions ; https://chromium.googlesource.com/chromium/src.git/+/refs/heads/main/gpu/config/gpu_switches.cc ; https://tailscale.com/docs/reference/tailscale-cli/serve
+The launcher applies High performance preferences and refuses integrated/unknown graphics for this NVIDIA package. Tested on RTX 2060 Max-Q; a physical RTX 5090 is not connected here. Open the packed scene in Blender 4.5 LTS or a compatible newer version to edit or rerender. README.md describes generation, Cycles validation and estimated house dimensions/materials. A faster GPU cannot remove those modeling uncertainties.

@@ -6,6 +6,7 @@ import {randomBytes,timingSafeEqual} from 'node:crypto';
 import puppeteer from 'puppeteer-core';
 import {WebSocketServer,WebSocket} from 'ws';
 import QRCode from 'qrcode';
+import {execFile} from 'node:child_process';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const runtime=path.join(root,'.runtime');await fs.mkdir(runtime,{recursive:true});
@@ -13,6 +14,8 @@ const port=Number(process.env.DAYLIGHT_PORT||5182),renderPort=Number(process.env
 const stateFile=path.join(runtime,'host.json');let saved={};try{saved=JSON.parse(await fs.readFile(stateFile,'utf8'));}catch{}
 const token=saved.token||randomBytes(24).toString('base64url');
 let browser,page,gpu='',ready=false,failure='',lastStatus={},closing=false;
+let connectionJob={busy:false,error:''};
+const localDashboard=req=>['127.0.0.1','::1','::ffff:127.0.0.1'].includes(req.socket.remoteAddress)&&['127.0.0.1','localhost','[::1]'].includes(new URL('http://'+req.headers.host).hostname);
 const clients=new Set(),keys=new Set();let lastInput=0,commandQueue=Promise.resolve(),statusBusy=false;const streamStats={frames:0,bytes:0,lastFrameAt:null};
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.svg':'image/svg+xml','.glb':'model/gltf-binary','.hdr':'application/octet-stream'};
 const equal=(a,b)=>typeof a==='string'&&a.length===b.length&&timingSafeEqual(Buffer.from(a),Buffer.from(b));
@@ -35,9 +38,20 @@ const server=http.createServer(async(req,res)=>{try{
   res.setHeader('Set-Cookie',`daylight=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=2592000`);return json(res,200,{ok:true});
  }
  if(u.pathname==='/api/state')return authorized(req)?json(res,200,{ready,gpu,failure,stream:streamStats,...lastStatus}):json(res,401,{error:'Pair this browser'});
+ if(u.pathname==='/api/tailscale'&&req.method==='POST'){
+  if(!authorized(req))return json(res,401,{error:'Pair this browser'});
+  if(!originOK(req)||!localDashboard(req))return json(res,403,{error:'Change connection settings from the local PC dashboard, including through Moonlight.'});
+  const b=await body(req);if(typeof b.enabled!=='boolean')return json(res,400,{error:'Choose enabled or disabled'});
+  if(connectionJob.busy)return json(res,409,{error:'Connection setup is already running'});
+  connectionJob={busy:true,error:''};
+  execFile('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',path.join(root,'remote/configure-tailscale.ps1'),'-Action',b.enabled?'enable':'disable'],{windowsHide:true,timeout:60000,maxBuffer:16384},(error,stdout,stderr)=>{connectionJob={busy:false,error:error?(stdout.trim()||'Tailscale setup failed. Check the Windows Tailscale app and try again.'):''};});
+  return json(res,202,{busy:true});
+ }
  if(u.pathname==='/api/connection'){
   if(!authorized(req))return json(res,401,{error:'Pair this browser'});let config={};try{config=JSON.parse((await fs.readFile(path.join(runtime,'connection.json'),'utf8')).replace(/^\uFEFF/,''));}catch{}
-  const url=(config.phone_url||`http://127.0.0.1:${port}/`)+'#'+token;return json(res,200,{url,private:!!config.phone_url,qr:await QRCode.toDataURL(url,{width:300,margin:2})});
+  const url=config.phone_url?config.phone_url+'#'+token:null;
+  const websiteUrl=url?'https://cleveland-sun-study.sammyhajalie2g.chatgpt.site/#host='+encodeURIComponent(url):null;
+  return json(res,200,{url,websiteUrl,private:!!url,canConfigure:localDashboard(req),job:connectionJob,qr:url?await QRCode.toDataURL(websiteUrl,{width:300,margin:2}):null});
  }
  if(u.pathname==='/methods'||u.pathname==='/validation-results.json'||u.pathname.startsWith('/references/')){if(!authorized(req))return json(res,401,{error:'Pair this browser'});return staticFile(res,path.join(root,'dist'),u.pathname==='/methods'?'validation.html':decodeURIComponent(u.pathname).slice(1));}
  const files={'/':'client.html','/client.js':'client.js','/style.css':'style.css'};
@@ -92,7 +106,7 @@ async function startRenderer(){try{
   }catch(e){launchErrors.push(path.basename(executablePath)+': '+e.message);console.warn('BROWSER_RETRY '+path.basename(executablePath));}
  }
  if(!browser)throw Error('No render browser could start. Install or update Google Chrome, then rerun START-DAYLIGHT.cmd. '+launchErrors.join('; '));
- page=await browser.newPage();await page.goto(`http://127.0.0.1:${renderPort}/`,{waitUntil:'domcontentloaded'});
+ page=await browser.newPage();await page.goto(`http://127.0.0.1:${renderPort}/render.html`,{waitUntil:'domcontentloaded'});
  await page.waitForFunction(()=>window.study?.state.ready,{timeout:120000});
  gpu=await page.evaluate(()=>{const gl=window.study.renderer.getContext(),e=gl.getExtension('WEBGL_debug_renderer_info');return e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL):'Unknown GPU';});
  if(!/NVIDIA.*(?:RTX|GeForce|Quadro)/i.test(gpu))throw Error(`Dedicated NVIDIA GPU was not selected: ${gpu}. Set the render browser to High performance in Windows Graphics settings and restart the launcher.`);

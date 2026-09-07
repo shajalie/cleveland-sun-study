@@ -27,7 +27,7 @@ with zipfile.ZipFile(output,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6
 with zipfile.ZipFile(output) as z:
  assert z.testzip() is None
  names=set(z.namelist())
- for name in ['START-DAYLIGHT.cmd','remote/server.mjs','runtime/node.exe','node_modules/puppeteer-core/package.json','dist/index.html','cleveland-daylight.blend','remote-validation.json']:
+ for name in ['START-DAYLIGHT.cmd','remote/server.mjs','runtime/node.exe','node_modules/puppeteer-core/package.json','dist/index.html','dist/render.html','remote/configure-tailscale.ps1','cleveland-daylight.blend','remote-validation.json']:
   assert 'cleveland-daylight/'+name in names,name+' missing'
  assert not any('/.runtime/' in name for name in names)
 report={'file':output.name,'bytes':output.stat().st_size,'sha256':hashlib.sha256(output.read_bytes()).hexdigest(),'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=P).decode().strip(),'files':len(names),'includesCredentials':False,'nodeVersion':subprocess.check_output([str(node),'--version']).decode().strip()}

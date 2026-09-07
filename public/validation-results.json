@@ -1,0 +1,140 @@
+{
+  "solar_engine_reference": "pvlib 0.15.2, NREL SPA, geometric elevation",
+  "solar": [
+    {
+      "date": "2026-03-20",
+      "local_time": "9:00 AM EDT",
+      "elevation_error_degrees": 0.20934926112095908,
+      "azimuth_error_degrees": 0.0480466522786287
+    },
+    {
+      "date": "2026-03-20",
+      "local_time": "1:00 PM EDT",
+      "elevation_error_degrees": 0.18383036865112956,
+      "azimuth_error_degrees": 0.17690017279812764
+    },
+    {
+      "date": "2026-03-20",
+      "local_time": "5:00 PM EDT",
+      "elevation_error_degrees": 0.028982051849695267,
+      "azimuth_error_degrees": 0.23778630243666043
+    },
+    {
+      "date": "2026-06-21",
+      "local_time": "9:00 AM EDT",
+      "elevation_error_degrees": 0.03140069258856215,
+      "azimuth_error_degrees": 0.02802085890948547
+    },
+    {
+      "date": "2026-06-21",
+      "local_time": "1:00 PM EDT",
+      "elevation_error_degrees": 0.002410386890133509,
+      "azimuth_error_degrees": 0.14957728352635513
+    },
+    {
+      "date": "2026-06-21",
+      "local_time": "5:00 PM EDT",
+      "elevation_error_degrees": 0.03750289245938632,
+      "azimuth_error_degrees": 0.02471693517526319
+    },
+    {
+      "date": "2026-09-22",
+      "local_time": "9:00 AM EDT",
+      "elevation_error_degrees": 0.04425877615035745,
+      "azimuth_error_degrees": 0.22921273540646325
+    },
+    {
+      "date": "2026-09-22",
+      "local_time": "1:00 PM EDT",
+      "elevation_error_degrees": 0.18427071920421412,
+      "azimuth_error_degrees": 0.18214039129941284
+    },
+    {
+      "date": "2026-09-22",
+      "local_time": "5:00 PM EDT",
+      "elevation_error_degrees": 0.20989589780504758,
+      "azimuth_error_degrees": 0.06206340730935267
+    },
+    {
+      "date": "2026-12-21",
+      "local_time": "9:00 AM EST",
+      "elevation_error_degrees": 0.017140139495758433,
+      "azimuth_error_degrees": 0.027342747031639192
+    },
+    {
+      "date": "2026-12-21",
+      "local_time": "1:00 PM EST",
+      "elevation_error_degrees": 0.007850289008313638,
+      "azimuth_error_degrees": 0.03634567133309474
+    },
+    {
+      "date": "2026-12-21",
+      "local_time": "5:00 PM EST",
+      "elevation_error_degrees": 0.026088649269572883,
+      "azimuth_error_degrees": 0.023266017171835074
+    },
+    {
+      "date": "2027-03-14",
+      "local_time": "9:00 AM EDT",
+      "elevation_error_degrees": 0.20562826656380295,
+      "azimuth_error_degrees": 0.0624441051265876
+    },
+    {
+      "date": "2027-03-14",
+      "local_time": "1:00 PM EDT",
+      "elevation_error_degrees": 0.1921725207052276,
+      "azimuth_error_degrees": 0.1447271665089147
+    },
+    {
+      "date": "2027-03-14",
+      "local_time": "5:00 PM EDT",
+      "elevation_error_degrees": 0.04881016994722387,
+      "azimuth_error_degrees": 0.2308355486066489
+    },
+    {
+      "date": "2027-11-07",
+      "local_time": "9:00 AM EST",
+      "elevation_error_degrees": 0.07834428534606985,
+      "azimuth_error_degrees": 0.14471956186929447
+    },
+    {
+      "date": "2027-11-07",
+      "local_time": "1:00 PM EST",
+      "elevation_error_degrees": 0.15374049527806477,
+      "azimuth_error_degrees": 0.03172868282237573
+    },
+    {
+      "date": "2027-11-07",
+      "local_time": "5:00 PM EST",
+      "elevation_error_degrees": 0.1431071425566653,
+      "azimuth_error_degrees": 0.06162718443334825
+    }
+  ],
+  "sealed_room_max_display_pixel": 0.00392156862745098,
+  "fixed_exposure_wall_display_means": {
+    "full": 0.17896184251478367,
+    "no_diffuse_bounce": 0.017525676937441646,
+    "55_percent_glazing": 0.16142794895736073,
+    "30_percent_wall_reflectance": 0.10027774665421724
+  },
+  "note": "Display pixel values validate qualitative trends only. They are not luminance or lux.",
+  "generated_at_utc": "2026-09-07T19:28:21.823061+00:00",
+  "input_sha256": {
+    "public/house.glb": "e55feb2197d9faf19d9a77d843e5ddf78a6d6fcf8fd409def0da01b8b8e34c9a",
+    "public/model.json": "3a496108975af270aadc13a7e3bbe405558758b4ce6c53bb77e9d6c7ff4c7d70",
+    "public/skies/manifest.json": "fae8f62657b89e9d6b9b30103256c887b8284a80c974fdd23b1e9826468c15a9",
+    "scripts/render.py": "b9e0d94890663d74c7ced7085ad1033fc17100452035044e46c84f54b3426899"
+  },
+  "reference_sha256": {
+    "bath-clear.png": "6898c5ba626c74b085efe1d7f3c778f66c21b89b5ff9d8a8954544085be25227",
+    "pool-clear.png": "856b607d508626b973c50b907aa67a54da4c4063e7fca2d766528035310f24c9",
+    "sealed-room.png": "6116d0f3f1cae2aba87ddaad31830435e9d89be97512b686c671b179334dac12",
+    "study-clear.png": "ec6de47cf6ae2b8ca82c9f7486b2b04d44154576a3118529e44cd684c30c5ada",
+    "study-overcast-dark-glass.png": "0fa79329d572fa2293fd35395cbbbb8d3fd2d56b67a2af3b0e0db4a1cb2445a7",
+    "study-overcast-dark-walls.png": "bb7210497e250ba379abf8ec795adb776cf13bb702010d4e6ac11c8a8bbe9b2a",
+    "study-overcast-no-bounce.png": "9ce2ca191b8a7995be5fd51c1a4f61b0ce1c9e2abf543dcd2ba318e2ca1e541e",
+    "study-overcast.png": "844e89b5340018c51eb763df0176f24ec4f2a640b2667335bb16c38275429a20",
+    "sunroom-clear.png": "0c88984ad2cdb192dd97a9c265e2e3cfc08e584c0d36609b2809356847a2a277",
+    "yard-clear.png": "4008ba09f3d4399f455e4fb3a99c1d0af1ddb178636cafdc1265b92400b876b6"
+  }
+}

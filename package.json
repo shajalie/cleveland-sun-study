@@ -1,0 +1,26 @@
+{
+  "name": "cleveland-sun-study",
+  "version": "1.0.0",
+  "description": "Interactive indoor and outdoor path-traced daylight study with Blender Cycles references",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 5173 --strictPort",
+    "test": "node scripts/check_assets.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "suncalc": "^1.9.0",
+    "three": "^0.180.0",
+    "three-gpu-pathtracer": "^0.0.23",
+    "three-mesh-bvh": "^0.9.1",
+    "vite": "^7.3.5"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-07",
+  "browser": "Codex in-app browser / WebGL 2",
+  "viewports": [
+    "1360×900",
+    "390×844"
+  ],
+  "checks": [
+    "Main and second floor shortcuts preserve 1.62 m eye height",
+    "Raised terrace uses 2.42 m eye elevation",
+    "3D tap to pool surround enters walking mode; destination indicator appears",
+    "Sparse leaves do not intercept ground taps; walls remain blockers",
+    "Drag changes direction without changing position",
+    "Phone room shortcut closes control panel",
+    "Phone floor-map tap enters primary bedroom",
+    "Accessible walk button advances player by 0.14 m",
+    "Overcast direct mode has zero environment illumination and zero solar intensity",
+    "Leaf-off option hides foliage while keeping 8× exposure fixed",
+    "55% glazing changes dielectric tint while retaining IOR 1.5 and transmission",
+    "Fine detail selects full render scale and 20 bounces",
+    "Matched sunroom and study browser/Cycles views visually compared",
+    "Methods page renders and loads independent validation statistics",
+    "125% tree crowns have zero visible leaf vertices inside the upstairs bathroom region",
+    "All 22 named destinations enter accessible positions on the intended floor/yard",
+    "All six reference buttons restore their exact camera position, sky, +3 EV, and estimated trees",
+    "Saved matched Sunroom comparison at 151 samples; caption records date, time, sky, 82% glass, 100% trees, and +3 EV",
+    "Final pruned Sunroom browser image visually compared with final Cycles image; no browser error logs"
+  ],
+  "limitations": [
+    "Browser comparisons were visual, not a calibrated numerical renderer-equivalence test",
+    "Browser noise and denoising depend on sample count and device GPU"
+  ]
+}

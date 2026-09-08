@@ -1,0 +1,133 @@
+{
+  "sceneSha256": "b0cbc186d1c4881adc19538cfd38309924c870699560ee49474a9353313b874a",
+  "pipelineSha256": "b406403886dd251be9a7755f8d64c79bf9122c6787fe66438e04a39ec541918b",
+  "samples": 128,
+  "views": [
+    {
+      "file": "study-clear.jpg",
+      "sha256": "ecb4116fd54fb31482eab278c34a6bf2821142eb61b98eaf73b3f628b732a531",
+      "view": {
+        "position": [
+          14.55,
+          2.42,
+          -19.5
+        ],
+        "direction": [
+          0.0,
+          -0.0899,
+          -0.996
+        ],
+        "fov": 60,
+        "exposure": 8,
+        "date": "2026-09-22",
+        "time": 780,
+        "sky": "clear"
+      }
+    },
+    {
+      "file": "study-overcast.jpg",
+      "sha256": "af8bb249c4138e238bae09b6c90810b08e36805394fb8cfac7e98e2be6ce4535",
+      "view": {
+        "position": [
+          14.55,
+          2.42,
+          -19.5
+        ],
+        "direction": [
+          0.0,
+          -0.0899,
+          -0.996
+        ],
+        "fov": 60,
+        "exposure": 8,
+        "date": "2026-09-22",
+        "time": 780,
+        "sky": "overcast"
+      }
+    },
+    {
+      "file": "sunroom-clear.jpg",
+      "sha256": "bbf3170063e4b459eff8d6ac30a6cb8008148152e04497dbd8269c4350defc32",
+      "view": {
+        "position": [
+          5.7,
+          5.57,
+          -23.3
+        ],
+        "direction": [
+          0.0,
+          -0.0899,
+          -0.996
+        ],
+        "fov": 60,
+        "exposure": 8,
+        "date": "2026-09-22",
+        "time": 780,
+        "sky": "clear"
+      }
+    },
+    {
+      "file": "yard-clear.jpg",
+      "sha256": "e7e74de1887b2c88151aea6d05bfe8770239d9b084ec099a9b93e3e7c43a7b9b",
+      "view": {
+        "position": [
+          10.8,
+          1.636,
+          -34
+        ],
+        "direction": [
+          0.0,
+          -0.06,
+          0.9982
+        ],
+        "fov": 60,
+        "exposure": 8,
+        "date": "2026-09-22",
+        "time": 780,
+        "sky": "clear"
+      }
+    },
+    {
+      "file": "pool-clear.jpg",
+      "sha256": "4ace458b709a4afae6d2ada514dc620c85b9ea456cc76f7f5c592585b5428997",
+      "view": {
+        "position": [
+          10.6,
+          1.636,
+          -35.9
+        ],
+        "direction": [
+          -0.8109,
+          -0.3429,
+          0.4742
+        ],
+        "fov": 60,
+        "exposure": 8,
+        "date": "2026-09-22",
+        "time": 780,
+        "sky": "clear"
+      }
+    },
+    {
+      "file": "bath-clear.jpg",
+      "sha256": "78a89641e5241dc45bcaa21b3b031aa43cbabd8a6bcf176cd7e5f0e6860ed64f",
+      "view": {
+        "position": [
+          14.2,
+          5.57,
+          -20.8
+        ],
+        "direction": [
+          0.996,
+          -0.0899,
+          -0.0
+        ],
+        "fov": 60,
+        "exposure": 8,
+        "date": "2026-09-22",
+        "time": 780,
+        "sky": "clear"
+      }
+    }
+  ]
+}

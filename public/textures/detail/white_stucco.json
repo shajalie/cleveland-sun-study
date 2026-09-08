@@ -1,0 +1,36 @@
+{
+  "asset": "white_stucco",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/white_stucco",
+  "dimensionsMillimeters": [
+    1998.0629682540894,
+    1998.0640411376953
+  ],
+  "files": {
+    "diff": {
+      "file": "white_stucco_diff.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/white_stucco/white_stucco_diff_2k.jpg",
+      "sha256": "a1cf9063e72d82306c5f3330cfaa56ed75ee365dc6a6eb875cde125395dbe4ea"
+    },
+    "rough": {
+      "file": "white_stucco_rough.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/white_stucco/white_stucco_rough_2k.jpg",
+      "sha256": "6c2aea6bd796d46c926066e48378563366661fffa255df2e82913eae68c1e2f8"
+    },
+    "normal": {
+      "file": "white_stucco_normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/white_stucco/white_stucco_nor_gl_2k.jpg",
+      "sha256": "d11eae11d09af20a1bd4e1262b1d35ad4259451a19651307a7fa8f6c0cadfc59"
+    },
+    "height": {
+      "file": "white_stucco_height.png",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/white_stucco/white_stucco_disp_2k.png",
+      "sha256": "413922c6800e52cf0969b6ab6258db827c1d38a8d4809e0f9e5d60081f3046db"
+    },
+    "ao": {
+      "file": "white_stucco_ao.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/white_stucco/white_stucco_ao_2k.jpg",
+      "sha256": "7c77345981cf41abd02b6793db3088aec529fca2807871b09df9786c34c5e697"
+    }
+  }
+}

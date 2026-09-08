@@ -1,59 +1,46 @@
 # Cleveland Daylight
 
-Interactive daylight reconstruction of 3014 Cleveland Avenue NW. Both floors and the property share an enclosed meter-scale scene. The browser traces the same geometry, textures and HDR lighting as Blender Cycles.
+A photo-informed reconstruction of 3014 Cleveland Avenue NW, Washington DC. The default tour reuses precomputed daylight while allowing free camera movement. The laptop draws the scene; a phone receives images and sends controls.
 
-## Remote desktop GPU and phone
+## Open on a PC or phone
 
-Use the private GitHub portable release and START-DAYLIGHT.cmd. It opens a local NVIDIA GPU dashboard with no Tailscale requirement. Use the dashboard through existing Moonlight, enable email-controlled Website sharing, or use optional Tailscale in Connection options. WEBSITE-SHARING.md describes the Cloudflare account connection and allowed-email controls. Its website pairing link remembers the chosen computer on the phone. The published Sites root is now a lightweight connection launcher and never automatically loads the path tracer. See MOVE-TO-ANOTHER-PC.md for both connection modes, pairing, startup and shutdown.
+Download the private Windows release ZIP, extract it, and double-click **START-DAYLIGHT.cmd**. Chrome and an NVIDIA GPU driver are required. Node and Blender are bundled; **no separate Blender installation is needed.**
 
-## Run
+The dashboard offers email-controlled Website sharing, optional Tailscale, and use through existing Moonlight. See WEBSITE-SHARING.md and MOVE-TO-ANOTHER-PC.md. The existing Sites address is a lightweight connection launcher; its separate build excludes the 3D payload entirely. Use npm run build:site only for that website; npm run build creates the full Windows host assets.
 
-Requires Node 20.19+ or 22.12+. Run npm ci, then npm run dev. Open http://127.0.0.1:5173/ for the connection page or /render.html for explicit rendering on this device. npm run build writes dist. The existing owner-private Site identity remains in .openai/hosting.json.
+## Explore and compare
 
-Drag to look, tap floor/ground to teleport, use WASD/arrows or the touch pad. Floor buttons, labeled maps and shortcuts cover indoors and outdoors. Orbit retains all roof and ceiling obstructions. Four seasonal dates and three local times provide 12 atmospheric skies without interpolation. Local time uses America/New_York DST rules.
+Drag to look, use WASD/arrows or touch controls, and tap visible floor/ground or the map to move. Floor buttons bridge the two levels. Orbit keeps the house roofs and neighboring obstructions visible.
 
-Explore uses reduced resolution and up to 512 samples. Fine detail uses full resolution and up to 2048. Pause to let noise converge. The initial still is labeled as a Cycles reference; interacting enters the live renderer. Comparisons require 128 samples. Exposure stays fixed.
+Four dates (March 20, June 21, September 22, December 21), three local times (9 AM, 1 PM, 5 PM), and clear/overcast skies provide **24 lighting scenarios**. There is no time interpolation. Time follows America/New_York, including daylight saving time.
 
-## Reproduce
+Baked daylight makes movement responsive. After the camera rests for 1.2 seconds, the PC renders a detailed 128-sample view in native Blender Cycles and streams that image. Moving returns immediately to the preview and cancels an unfinished detail render. Six finished Cycles views are bundled, including the initial viewpoint. Other completed views are cached, so revisiting the same view is immediate. The disk cache retains 200 views. The phone decodes JPEG images and sends controls; it does not load the 3D scene. Exposure remains fixed while walking. March and December use an estimated deciduous leaf-off state; evergreen foliage remains. These are seasonal assumptions, not a botanical survey.
 
-Blender 4.5.13 LTS portable was installed from the official Blender release archive at ../../tools/blender-4.5.13-windows-x64/blender.exe. OptiX rendering was verified on this PC's RTX 2060 Max-Q. Python dependencies: numpy, pillow, pandas, pvlib and tzdata; requests is only needed for optional evidence retrieval.
+## Rebuild the scene and lighting
 
-Run, in this order:
+The portable release includes the editable, texture-packed **cleveland-realism.blend**. The original **cleveland-daylight.blend** is retained as the source-plan foundation. Blender 4.5.13 LTS was used with OptiX on this laptop's RTX 2060 Max-Q.
 
-1. python scripts/textures.py
-2. node scripts/scenarios.mjs
-3. blender --background --python scripts/scene.py
-4. blender --background --python scripts/bake_skies.py
-5. blender --background --python scripts/render.py
-6. python scripts/validate.py
-7. npm test
-8. npm run build
+From a source checkout with Node dependencies installed, run:
 
-Use the installed Blender executable path in place of blender. The scene generator writes cleveland-daylight.blend, public/house.glb, public/model.json and collision data. The editable blend has packed images. Reference rendering removes prior generated lights/test objects before rerunning. Cycles uses 512 samples, denoising, 20 total / 12 diffuse / 16 transmission / 24 transparent bounce limits; browser uses 20 bounces and multiple importance sampling.
+1. `python scripts/realism_assets.py`, `python scripts/model_assets.py`, and `python scripts/fetch_detail_materials.py` (requires requests).
+2. `blender -b --python-exit-code 1 --python scripts/prepare_models.py`
+3. `blender -b --python-exit-code 1 --python scripts/upgrade_scene.py`
+4. `blender -b --python-exit-code 1 --python scripts/bake_daylight.py -- --prepare`
+5. `blender -b --python-exit-code 1 --python scripts/bake_daylight.py -- --overcast`
+6. `node scripts/compress_scene.mjs`
+7. `blender -b --python-exit-code 1 --python scripts/reference_realism.py`
+8. `npm test`, `npm run test:baked`, and `npm run build`.
 
-## Lighting and validation
+Use the full path to Blender if it is not on PATH. Geometry is authored in Blender coordinates (x, plan_y, height); glTF uses (x, height, -plan_y). Indoor meters and the outdoor US survey-foot conversion 1200/3937 are retained. Scene chunks have checksums and stay below the hosting per-file limit.
 
-Nishita skies use air/dust/ozone densities of 1, an estimated 90 m altitude and a 0.53° sun disk. Sky rendering is 4096 × 2048 at four samples, area-averaged to shared 2048 × 1024 HDR maps. Solar disk alignment is checked against the intended world-space vector. Appearance uses no extra Sun. The separate direct-shadow diagnostic uses a normalized directional source.
+## Lighting and limits
 
-Overcast uses the CIE zenith-bright shape and 35% of clear horizontal illumination: an explicit weather assumption. Both engines use the global HDR scale 1/30 and display curve sRGB(E L / (1 + E L)), E = 8 at default +3 EV. There is no room-dependent gain, adaptive exposure or ambient fill. EV labels are relative display settings, not EV100 calibration. Pixel values are never labeled lux.
+Cycles bakes direct and indirect diffuse light without the surface color, using 96 samples, up to 16 total and 10 diffuse bounces, then HDR denoising. A second UV set stores the lightmaps. Two local indoor reflection probes accompany each scenario. The tour combines those with surface textures and view-dependent reflection/transmission approximations. **The baked tour is not full live path tracing.**
 
-Glass uses IOR 1.5 and estimated normal transmission. Camera paths refract/reflect. Cycles uses straight attenuated shadow paths through thin architectural glass to avoid noisy refractive caustic sampling; this is an intentional approximation and differs from the browser BSDF. The 12% covering is attenuation only, not curtain scattering. Pool water uses IOR 1.333; underwater caustics are unvalidated. Foliage is explicit leaf/branch geometry with approximate rough transmission, not a measured leaf BSDF.
+Clear skies use the existing Nishita atmosphere and 0.53-degree solar disk. Overcast follows a CIE distribution at an assumed 35% of clear horizontal illumination. The shared HDR scale is 1/30. The rebuilt display uses AgX and relative fixed exposure, normally +3 EV. Architectural panes use an 82% thin-glass shadow approximation with dielectric camera/reflection paths. It is not calibrated EV100, and pixels are not lux. Blender and browser AgX contrast differ slightly.
 
-See public/validation.html for methods, sources and assumptions. validation-results.json contains independent NREL SPA checks via pvlib for 18 positions including DST transitions, and paired Cycles image checks for sealed-room leakage, indirect bounce contribution, reduced transmission and reduced reflectance. Display pixel statistics are not lux. Browser and Cycles matching views were visually inspected; navigation was tested interactively.
+The fence, terrace finishes, rear roof surfaces, furnishings, grass blades and foliage were revised against listing photos 0-55 and the March 27, 2025 DC aerial. 2048-pixel scanned material maps add physically scaled plaster grain, leather pores, fabric weave, wood grain and stone wear. Main roof tiles have curved geometry, overlap and separate lips. Scanned surface and tree models are CC0 Poly Haven assets; source URLs and hashes are included in public/textures. Neighbor footprints are retained, while facade details and heights remain estimates. Trees are trimmed where they would intersect the house.
 
-## Reconstruction limits
+This remains a reconstruction, not a measured replica. The supplied plan's living-room depth is about 8.4 m versus the listing's 25 ft (7.62 m), an unresolved roughly 10% discrepancy. Window dimensions/transmission, material reflectance, tree species/density and neighbor heights remain consequential uncertainties. The basement and a physical stair flight are omitted. Photographs cannot establish actual brightness because exposure, editing and electric lighting are unknown.
 
-Indoor coordinates are meters; outdoor US survey feet convert once by 1200/3937. Stored orientation vectors are retained. Blender coordinates are (x, plan_y, height); Three/glTF are (x, height, -plan_y).
-
-Additional Compass listing photos informed broad sunroom glazing, arched landing/powder windows, joinery, furnishings and terrace levels. These remain estimates. Photos cannot calibrate brightness because exposure/editing and electric lighting are unknown. Trees, glass products, roofs and neighbor heights remain major uncertainties. Tree crowns and glazing are adjustable. Winter retains leaf-on foliage. Terrain is simplified; basement and physical stair flight are omitted.
-
-The supplied ZIP is untouched outside the project. legacy/, src/, export HTML and the original Python builder preserve the old app. Use npm build for the new app.
-
-Sources: supplied plans/photos; https://www.compass.com/homedetails/3014-Cleveland-Ave-NW-Washington-DC-20008/1UXTV4_pid/ ; https://docs.blender.org/manual/en/4.5/render/shader_nodes/textures/sky.html ; https://github.com/gkjohnson/three-gpu-pathtracer ; https://pvlib-python.readthedocs.io/en/stable/reference/generated/pvlib.solarposition.get_solarposition.html
-
-An exploratory reconstruction, not a calibrated illuminance model or certified building assessment.
-
-The Leaf-off bound removes leaves while retaining branches/trunks; it is a sensitivity bound, not a verified winter species model.
-
-The registered project footprint was retained. Its room dimensions remain approximate: for example, the modeled living-room depth is about 8.4 m, while the listing plan labels 25 ft (7.62 m). This roughly 10% difference is an unresolved geometry uncertainty and affects daylight penetration.
-Estimated tree leaves and branches are trimmed against the building envelope. The browser repeats leaf trimming after crown-size changes.
+See REALISM-REBUILD.md, realism-validation.json and public/validation.html. Original sky/transport diagnostics remain in validation-results.json; they do not independently validate the rebuilt geometry. The actual RTX 5090 is not connected to this workspace.

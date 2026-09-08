@@ -1,0 +1,14 @@
+{
+  "testedAt": "2026-09-08T00:23:28.225Z",
+  "gpu": [
+    "NVIDIA GeForce RTX 2060 with Max-Q Design"
+  ],
+  "samples": 128,
+  "firstViewWallSeconds": 19.091,
+  "renderSeconds": 18.890999999945052,
+  "jpegBytes": 73312,
+  "cacheReuse": true,
+  "bundledFirstView": true,
+  "cancellationAndRestart": true,
+  "transport": "private child stdin/stdout"
+}

@@ -1,0 +1,25 @@
+{
+  "testedAt": "2026-09-08T00:24:05.809Z",
+  "scenarioCount": 24,
+  "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+  "sceneBytes": 176773652,
+  "sceneNodes": 101,
+  "treeNodes": 24,
+  "materials": 63,
+  "bakeSeconds": 1058.3890000001993,
+  "medianScenarioSeconds": 44.17200000002049,
+  "checks": [
+    "All 24 scenarios match the same prepared scene",
+    "Scene chunks and complete GLB hashes verified",
+    "Every baked mesh has a second UV set",
+    "Plaster, leather, fabric, roof, fence and stone retain normal and roughness maps",
+    "Two local reflection probes per scenario",
+    "Evergreen and deciduous vegetation and three fence collision barriers present",
+    "Six independent Cycles reference renders present"
+  ],
+  "limitations": [
+    "Geometry and material reflectance are photo-informed estimates, not a measured replica",
+    "Baked diffuse light and static reflection probes approximate view-dependent transport",
+    "Existing plan discrepancy remains: living depth about 8.4 m versus listing label 7.62 m"
+  ]
+}

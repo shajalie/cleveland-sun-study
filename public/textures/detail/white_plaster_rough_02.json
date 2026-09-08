@@ -1,0 +1,36 @@
+{
+  "asset": "white_plaster_rough_02",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/white_plaster_rough_02",
+  "dimensionsMillimeters": [
+    1000,
+    1000
+  ],
+  "files": {
+    "diff": {
+      "file": "white_plaster_rough_02_diff.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/white_plaster_rough_02/white_plaster_rough_02_diff_2k.jpg",
+      "sha256": "36491f4237808049b438cfce7aea34db30e3c2c3e14ee17ff97b1357d7d04f2b"
+    },
+    "rough": {
+      "file": "white_plaster_rough_02_rough.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/white_plaster_rough_02/white_plaster_rough_02_rough_2k.jpg",
+      "sha256": "3e84d3b5e50e4587312495ae087f48c0216bf61a593341ca987a2c2607ff24f6"
+    },
+    "normal": {
+      "file": "white_plaster_rough_02_normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/white_plaster_rough_02/white_plaster_rough_02_nor_gl_2k.jpg",
+      "sha256": "e3085595e98121f25e34f395f21cbf5113e816099b405eb8ec20bffaaaf3c64b"
+    },
+    "height": {
+      "file": "white_plaster_rough_02_height.png",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/white_plaster_rough_02/white_plaster_rough_02_disp_2k.png",
+      "sha256": "3c71fa77e6c5d74c64851a6cbfcdec5dee87491379f021b32b906a2c39f0f62a"
+    },
+    "ao": {
+      "file": "white_plaster_rough_02_ao.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/white_plaster_rough_02/white_plaster_rough_02_ao_2k.jpg",
+      "sha256": "cc4cd4b031409f0124ebdcc94dcc6fc5dc50500e3dac09ab4a7c52c1b25dcff8"
+    }
+  }
+}

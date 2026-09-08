@@ -1,0 +1,626 @@
+[
+  {
+    "key": "2026-09-22-780-clear",
+    "date": "2026-09-22",
+    "time": 780,
+    "sky": "clear",
+    "maps": {
+      "interior": "/lightmaps/2026-09-22-780-clear-interior.png",
+      "exterior": "/lightmaps/2026-09-22-780-clear-exterior.png"
+    },
+    "ranges": {
+      "interior": 4,
+      "exterior": 4
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-09-22-780-clear-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-09-22-780-clear-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 43.96900000004098,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-03-20-540-clear",
+    "date": "2026-03-20",
+    "time": 540,
+    "sky": "clear",
+    "maps": {
+      "interior": "/lightmaps/2026-03-20-540-clear-interior.png",
+      "exterior": "/lightmaps/2026-03-20-540-clear-exterior.png"
+    },
+    "ranges": {
+      "interior": 8,
+      "exterior": 4
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-03-20-540-clear-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-03-20-540-clear-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 40.78100000007544,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-03-20-780-clear",
+    "date": "2026-03-20",
+    "time": 780,
+    "sky": "clear",
+    "maps": {
+      "interior": "/lightmaps/2026-03-20-780-clear-interior.png",
+      "exterior": "/lightmaps/2026-03-20-780-clear-exterior.png"
+    },
+    "ranges": {
+      "interior": 4,
+      "exterior": 4
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-03-20-780-clear-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-03-20-780-clear-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 40.04700000002049,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-03-20-1020-clear",
+    "date": "2026-03-20",
+    "time": 1020,
+    "sky": "clear",
+    "maps": {
+      "interior": "/lightmaps/2026-03-20-1020-clear-interior.png",
+      "exterior": "/lightmaps/2026-03-20-1020-clear-exterior.png"
+    },
+    "ranges": {
+      "interior": 8,
+      "exterior": 8
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-03-20-1020-clear-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-03-20-1020-clear-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 41.20299999997951,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-06-21-540-clear",
+    "date": "2026-06-21",
+    "time": 540,
+    "sky": "clear",
+    "maps": {
+      "interior": "/lightmaps/2026-06-21-540-clear-interior.png",
+      "exterior": "/lightmaps/2026-06-21-540-clear-exterior.png"
+    },
+    "ranges": {
+      "interior": 8,
+      "exterior": 4
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-06-21-540-clear-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-06-21-540-clear-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 43.46899999992456,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-06-21-780-clear",
+    "date": "2026-06-21",
+    "time": 780,
+    "sky": "clear",
+    "maps": {
+      "interior": "/lightmaps/2026-06-21-780-clear-interior.png",
+      "exterior": "/lightmaps/2026-06-21-780-clear-exterior.png"
+    },
+    "ranges": {
+      "interior": 4,
+      "exterior": 4
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-06-21-780-clear-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-06-21-780-clear-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 44.17200000002049,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-06-21-1020-clear",
+    "date": "2026-06-21",
+    "time": 1020,
+    "sky": "clear",
+    "maps": {
+      "interior": "/lightmaps/2026-06-21-1020-clear-interior.png",
+      "exterior": "/lightmaps/2026-06-21-1020-clear-exterior.png"
+    },
+    "ranges": {
+      "interior": 4,
+      "exterior": 4
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-06-21-1020-clear-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-06-21-1020-clear-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 44.90600000007544,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-09-22-540-clear",
+    "date": "2026-09-22",
+    "time": 540,
+    "sky": "clear",
+    "maps": {
+      "interior": "/lightmaps/2026-09-22-540-clear-interior.png",
+      "exterior": "/lightmaps/2026-09-22-540-clear-exterior.png"
+    },
+    "ranges": {
+      "interior": 8,
+      "exterior": 4
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-09-22-540-clear-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-09-22-540-clear-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 44.60899999993853,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-09-22-1020-clear",
+    "date": "2026-09-22",
+    "time": 1020,
+    "sky": "clear",
+    "maps": {
+      "interior": "/lightmaps/2026-09-22-1020-clear-interior.png",
+      "exterior": "/lightmaps/2026-09-22-1020-clear-exterior.png"
+    },
+    "ranges": {
+      "interior": 8,
+      "exterior": 4
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-09-22-1020-clear-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-09-22-1020-clear-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 45.92200000002049,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-12-21-540-clear",
+    "date": "2026-12-21",
+    "time": 540,
+    "sky": "clear",
+    "maps": {
+      "interior": "/lightmaps/2026-12-21-540-clear-interior.png",
+      "exterior": "/lightmaps/2026-12-21-540-clear-exterior.png"
+    },
+    "ranges": {
+      "interior": 4,
+      "exterior": 4
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-12-21-540-clear-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-12-21-540-clear-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 42.81299999996554,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-12-21-780-clear",
+    "date": "2026-12-21",
+    "time": 780,
+    "sky": "clear",
+    "maps": {
+      "interior": "/lightmaps/2026-12-21-780-clear-interior.png",
+      "exterior": "/lightmaps/2026-12-21-780-clear-exterior.png"
+    },
+    "ranges": {
+      "interior": 4,
+      "exterior": 4
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-12-21-780-clear-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-12-21-780-clear-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 43.89000000001397,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-12-21-1020-clear",
+    "date": "2026-12-21",
+    "time": 1020,
+    "sky": "clear",
+    "maps": {
+      "interior": "/lightmaps/2026-12-21-1020-clear-interior.png",
+      "exterior": "/lightmaps/2026-12-21-1020-clear-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-12-21-1020-clear-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-12-21-1020-clear-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 43.54700000002049,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-03-20-540-overcast",
+    "date": "2026-03-20",
+    "time": 540,
+    "sky": "overcast",
+    "maps": {
+      "interior": "/lightmaps/2026-03-20-540-overcast-interior.png",
+      "exterior": "/lightmaps/2026-03-20-540-overcast-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-03-20-540-overcast-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-03-20-540-overcast-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 42.70299999997951,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-03-20-780-overcast",
+    "date": "2026-03-20",
+    "time": 780,
+    "sky": "overcast",
+    "maps": {
+      "interior": "/lightmaps/2026-03-20-780-overcast-interior.png",
+      "exterior": "/lightmaps/2026-03-20-780-overcast-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-03-20-780-overcast-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-03-20-780-overcast-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 44.17200000002049,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-03-20-1020-overcast",
+    "date": "2026-03-20",
+    "time": 1020,
+    "sky": "overcast",
+    "maps": {
+      "interior": "/lightmaps/2026-03-20-1020-overcast-interior.png",
+      "exterior": "/lightmaps/2026-03-20-1020-overcast-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-03-20-1020-overcast-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-03-20-1020-overcast-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 43.98400000005495,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-06-21-540-overcast",
+    "date": "2026-06-21",
+    "time": 540,
+    "sky": "overcast",
+    "maps": {
+      "interior": "/lightmaps/2026-06-21-540-overcast-interior.png",
+      "exterior": "/lightmaps/2026-06-21-540-overcast-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-06-21-540-overcast-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-06-21-540-overcast-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 45.95299999997951,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-06-21-780-overcast",
+    "date": "2026-06-21",
+    "time": 780,
+    "sky": "overcast",
+    "maps": {
+      "interior": "/lightmaps/2026-06-21-780-overcast-interior.png",
+      "exterior": "/lightmaps/2026-06-21-780-overcast-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-06-21-780-overcast-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-06-21-780-overcast-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 46.60999999998603,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-06-21-1020-overcast",
+    "date": "2026-06-21",
+    "time": 1020,
+    "sky": "overcast",
+    "maps": {
+      "interior": "/lightmaps/2026-06-21-1020-overcast-interior.png",
+      "exterior": "/lightmaps/2026-06-21-1020-overcast-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-06-21-1020-overcast-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-06-21-1020-overcast-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 45.98400000005495,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-09-22-540-overcast",
+    "date": "2026-09-22",
+    "time": 540,
+    "sky": "overcast",
+    "maps": {
+      "interior": "/lightmaps/2026-09-22-540-overcast-interior.png",
+      "exterior": "/lightmaps/2026-09-22-540-overcast-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-09-22-540-overcast-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-09-22-540-overcast-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 45.311999999918044,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-09-22-780-overcast",
+    "date": "2026-09-22",
+    "time": 780,
+    "sky": "overcast",
+    "maps": {
+      "interior": "/lightmaps/2026-09-22-780-overcast-interior.png",
+      "exterior": "/lightmaps/2026-09-22-780-overcast-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-09-22-780-overcast-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-09-22-780-overcast-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 46.063000000081956,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-09-22-1020-overcast",
+    "date": "2026-09-22",
+    "time": 1020,
+    "sky": "overcast",
+    "maps": {
+      "interior": "/lightmaps/2026-09-22-1020-overcast-interior.png",
+      "exterior": "/lightmaps/2026-09-22-1020-overcast-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-09-22-1020-overcast-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-09-22-1020-overcast-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 46.01500000001397,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-12-21-540-overcast",
+    "date": "2026-12-21",
+    "time": 540,
+    "sky": "overcast",
+    "maps": {
+      "interior": "/lightmaps/2026-12-21-540-overcast-interior.png",
+      "exterior": "/lightmaps/2026-12-21-540-overcast-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-12-21-540-overcast-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-12-21-540-overcast-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 43.453000000095926,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-12-21-780-overcast",
+    "date": "2026-12-21",
+    "time": 780,
+    "sky": "overcast",
+    "maps": {
+      "interior": "/lightmaps/2026-12-21-780-overcast-interior.png",
+      "exterior": "/lightmaps/2026-12-21-780-overcast-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-12-21-780-overcast-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-12-21-780-overcast-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 44.35899999993853,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  },
+  {
+    "key": "2026-12-21-1020-overcast",
+    "date": "2026-12-21",
+    "time": 1020,
+    "sky": "overcast",
+    "maps": {
+      "interior": "/lightmaps/2026-12-21-1020-overcast-interior.png",
+      "exterior": "/lightmaps/2026-12-21-1020-overcast-exterior.png"
+    },
+    "ranges": {
+      "interior": 1,
+      "exterior": 1
+    },
+    "probes": {
+      "lower": "/lightmaps/2026-12-21-1020-overcast-lower-reflection.hdr",
+      "upper": "/lightmaps/2026-12-21-1020-overcast-upper-reflection.hdr"
+    },
+    "encoding": "RGBM-linear",
+    "resolution": 2048,
+    "samples": 96,
+    "seconds": 44.45299999997951,
+    "glazing": 0.82,
+    "seasonalFoliage": true,
+    "sceneSha256": "d86d3ebafff31424b93797bd2f4358beaa746a9b416830b9e4dbc1f8833f8794",
+    "denoiser": "OIDN HDR"
+  }
+]

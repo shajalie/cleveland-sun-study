@@ -1,0 +1,36 @@
+{
+  "asset": "brown_leather",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/brown_leather",
+  "dimensionsMillimeters": [
+    400.0000059604645,
+    400.00003576278687
+  ],
+  "files": {
+    "diff": {
+      "file": "brown_leather_diff.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/brown_leather/brown_leather_albedo_2k.jpg",
+      "sha256": "b0de2403a31efa31e501b0028c0bd8e504d5bd6318f4a5ce90c550c3067f96d8"
+    },
+    "rough": {
+      "file": "brown_leather_rough.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/brown_leather/brown_leather_rough_2k.jpg",
+      "sha256": "8a47afca2630310849034fe40ca9497db0956c67c0d933e6efd49d3cd2befe83"
+    },
+    "normal": {
+      "file": "brown_leather_normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/brown_leather/brown_leather_nor_gl_2k.jpg",
+      "sha256": "3386277290af50b4d464dc9a9f195bbf8dd6f137b9ae0274552397d2f0135c98"
+    },
+    "height": {
+      "file": "brown_leather_height.png",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/brown_leather/brown_leather_disp_2k.png",
+      "sha256": "7b359e04854fe3b4cd84680affbdcfbea69c291b66b6f0b91a4d23edd364586b"
+    },
+    "ao": {
+      "file": "brown_leather_ao.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/brown_leather/brown_leather_ao_2k.jpg",
+      "sha256": "0f1f8753775779d4e25512f4d08aec1e7dbb73b1d0dc98df66af2071fe8bfa77"
+    }
+  }
+}

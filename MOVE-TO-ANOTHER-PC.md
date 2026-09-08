@@ -17,9 +17,9 @@ In the PC dashboard, open Connection options and enable Web browser via Tailscal
 Scan the website QR code or open Save this PC on the website on your phone once. The website stores that PC's private connection link only in that browser. Later visits to the original website open the saved PC stream automatically. Choose Change computer during the three-second countdown or add ?settings to the website URL to switch computers. Pairing can be repeated after clearing browser data. Disable browser access from the local dashboard to remove only this app's Tailscale Serve mapping; local/Moonlight use continues.
 
 ## What runs where
-The published website is a small connection page. It does not load Three.js, the house model, HDR skies or a WebGL renderer. There is no automatic fallback to phone rendering if the computer is offline. The explicit Render on this device link opens the standalone GPU renderer at /render.html.
+The published website is a small connection page. It does not load Three.js, the house model, HDR skies or a WebGL renderer. There is no automatic fallback to phone rendering if the computer is offline. The standalone renderer remains available on the PC at its local /render.html address. The published connection website does not include that renderer.
 
-Browser streaming opens the chosen computer's private HTTPS page. That PC traces the light paths and sends JPEG frames; the phone sends scene controls. Moonlight streams the PC desktop using its own existing connection. One host session has one shared camera. Frame rate and image convergence depend on GPU, scene, connection and quality; 60 fps is not promised.
+Browser streaming opens the chosen computer's private HTTPS page. That PC draws precomputed daylight while moving, refines stationary views in Blender Cycles, and sends JPEG frames; the phone sends scene controls. Moonlight streams the PC desktop using its own existing connection. One host session has one shared camera. Frame rate and image convergence depend on GPU, scene, connection and quality; 60 fps is not promised.
 
 Keep the PC and renderer running. The launcher prevents Windows sleep while its host runs. STOP-DAYLIGHT.cmd stops this host and isolated browser. Tailscale is needed only while using its browser connection. Public Funnel is never enabled.
 
@@ -27,7 +27,7 @@ Keep the PC and renderer running. The launcher prevents Windows sleep while its 
 Connection links contain private pairing keys. Share them only with intended viewers. Browser profiles, credentials, pairing state and personal Tailscale configuration are excluded from GitHub and the ZIP. Each extracted copy generates a key. The hosted site stores a selected connection locally in the viewer's browser, never in the source or a server database. Stream controls require authentication. Network settings can only be changed through the authenticated loopback dashboard, including through Moonlight.
 
 ## Runtime and Blender
-The release bundles Node, JavaScript dependencies, prebuilt assets, complete source and cleveland-daylight.blend with packed textures. Node, Python, Docker and Blender installations are unnecessary for the walkthrough.
+The release bundles Node, Blender 4.5.13, JavaScript dependencies, precomputed lighting, complete source, and cleveland-realism.blend with packed textures. No separate Node, Python, Docker or Blender installation is needed. Chrome and an NVIDIA driver are required.
 
 For a Git clone, install Node 22.12+ and run npm ci and npm run build before START-DAYLIGHT.cmd. npm run dev serves the connection page; /render.html is the original renderer. npm test validates model assets. npm run test:remote checks the running stream. The optional older Docker bridge remains available with -UseDockerBridge; it is not the default.
 

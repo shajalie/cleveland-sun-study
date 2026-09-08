@@ -1,0 +1,36 @@
+{
+  "asset": "mossy_sandstone",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/mossy_sandstone",
+  "dimensionsMillimeters": [
+    1889.9996280670166,
+    1889.9996280670166
+  ],
+  "files": {
+    "diff": {
+      "file": "mossy_sandstone_diff.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/mossy_sandstone/mossy_sandstone_diff_2k.jpg",
+      "sha256": "f35f783253d4e24d3b68cb8300d0993f6c9bc02cc0d8f9c41591b60e393e76b6"
+    },
+    "rough": {
+      "file": "mossy_sandstone_rough.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/mossy_sandstone/mossy_sandstone_rough_2k.jpg",
+      "sha256": "e8d093e88759a3421cbb0d91081a81834a3eba73b523b5dede5ef21c8a41c080"
+    },
+    "normal": {
+      "file": "mossy_sandstone_normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/mossy_sandstone/mossy_sandstone_nor_gl_2k.jpg",
+      "sha256": "faa47c09cc35a8df1edcaf45d68cb3dd228fb19bc7d9b985c994cb25aedde191"
+    },
+    "height": {
+      "file": "mossy_sandstone_height.png",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/mossy_sandstone/mossy_sandstone_disp_2k.png",
+      "sha256": "a6d5b218cc67f7a90f378490be9daa14bcaf1db84dc9be650af529acb8830021"
+    },
+    "ao": {
+      "file": "mossy_sandstone_ao.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/mossy_sandstone/mossy_sandstone_ao_2k.jpg",
+      "sha256": "2d70ba4afa5ae63bc43c86b8a2c123130640a1c87e141c5e24126ebe1ac46e59"
+    }
+  }
+}

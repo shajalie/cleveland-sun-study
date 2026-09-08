@@ -1,7 +1,7 @@
 {
   "name": "cleveland-sun-study",
-  "version": "1.2.0",
-  "description": "Interactive indoor and outdoor path-traced daylight study with Blender Cycles references",
+  "version": "2.0.0",
+  "description": "Photo-informed daylight tour with baked navigation, native Blender detail and private GPU streaming",
   "main": "index.js",
   "directories": {
     "test": "tests"
@@ -14,7 +14,12 @@
     "host": "node remote/server.mjs",
     "test:remote": "node tests/remote-host.mjs",
     "test:connection": "node tests/connection.mjs",
-    "test:sharing": "node tests/sharing.mjs"
+    "test:sharing": "node tests/sharing.mjs",
+    "test:baked": "node scripts/check_baked.mjs",
+    "test:navigation": "node tests/navigation.mjs",
+    "format:check": "prettier --check app/main.js app/navigation.js app/baked-lighting.js app/load-scene.js remote/client.js remote/server.mjs",
+    "test:cycles": "node tests/cycles-renderer.mjs",
+    "build:site": "node scripts/build-site.mjs"
   },
   "keywords": [],
   "author": "",
@@ -30,5 +35,12 @@
     "three-mesh-bvh": "^0.9.1",
     "vite": "^7.3.5",
     "ws": "8.21.3"
+  },
+  "devDependencies": {
+    "@gltf-transform/core": "4.5.0",
+    "@gltf-transform/extensions": "4.5.0",
+    "@gltf-transform/functions": "4.5.0",
+    "meshoptimizer": "1.2.0",
+    "prettier": "^3.9.6"
   }
 }

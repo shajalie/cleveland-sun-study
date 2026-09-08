@@ -1,0 +1,36 @@
+{
+  "asset": "red_sandstone_pavement",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/red_sandstone_pavement",
+  "dimensionsMillimeters": [
+    2150.0000953674316,
+    2150.0000953674316
+  ],
+  "files": {
+    "diff": {
+      "file": "red_sandstone_pavement_diff.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/red_sandstone_pavement/red_sandstone_pavement_diff_2k.jpg",
+      "sha256": "2e6a5cda40785eb4a346673646ae603c4557feec3075d6b7023207952729d012"
+    },
+    "rough": {
+      "file": "red_sandstone_pavement_rough.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/red_sandstone_pavement/red_sandstone_pavement_rough_2k.jpg",
+      "sha256": "99667dbcf5bb4a95ddabd0d6ed22316a3e444a25ada12cbd3fc68e46f50c0366"
+    },
+    "normal": {
+      "file": "red_sandstone_pavement_normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/red_sandstone_pavement/red_sandstone_pavement_nor_gl_2k.jpg",
+      "sha256": "4fc01c8b3ddc6b9d2339f0620d825a39f4b8aefacc1ec6d64407ff374cdb7f3f"
+    },
+    "height": {
+      "file": "red_sandstone_pavement_height.png",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/red_sandstone_pavement/red_sandstone_pavement_disp_2k.png",
+      "sha256": "8224019a0d03d4adf5869e11a24ae7053f60d2d51bf34e5b12c9dd7cbe8d7b60"
+    },
+    "ao": {
+      "file": "red_sandstone_pavement_ao.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/red_sandstone_pavement/red_sandstone_pavement_ao_2k.jpg",
+      "sha256": "2c15907bcc434373e5551e0d824f3aeeeb9db0bbe0fff0f61eac351b3400aa99"
+    }
+  }
+}

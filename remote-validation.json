@@ -1,7 +1,7 @@
 {
-  "testedAt": "2026-09-07T21:22:57.571Z",
+  "testedAt": "2026-09-08T00:26:20.196Z",
   "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2060 with Max-Q Design (0x00001F12) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-  "jpegFramesReceived": 11,
+  "jpegFramesReceived": 35,
   "checks": [
     "Unauthenticated state and control rejected",
     "Foreign Origin pairing rejected",
@@ -10,10 +10,12 @@
     "Unknown controls rejected",
     "Upstairs navigation and clear/overcast changes applied on host",
     "Single-tap walking changes position",
-    "Movement stops after heartbeat loss"
+    "Movement stops after heartbeat loss",
+    "Stationary stream refines to 128-sample native Cycles on NVIDIA GPU",
+    "Moving returns to the preview immediately"
   ],
   "limitations": [
     "Tested on RTX 2060 Max-Q; RTX 5090 is not connected to this workspace",
-    "Private tailnet browser tested separately from this local API test"
+    "Authenticated streaming tested locally; public URL verified to reach Cloudflare email sign-in"
   ]
 }

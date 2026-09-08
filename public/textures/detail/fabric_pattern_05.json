@@ -1,0 +1,31 @@
+{
+  "asset": "fabric_pattern_05",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/fabric_pattern_05",
+  "dimensionsMillimeters": [
+    500,
+    499.9999403953552
+  ],
+  "files": {
+    "diff": {
+      "file": "fabric_pattern_05_diff.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/fabric_pattern_05/fabric_pattern_05_col_01_2k.jpg",
+      "sha256": "090e3b8a097153c66539616ff7e4eaabcbbd39104b7ad98d6e0ed436843aa23f"
+    },
+    "rough": {
+      "file": "fabric_pattern_05_rough.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/fabric_pattern_05/fabric_pattern_05_rough_2k.jpg",
+      "sha256": "3b2838c46227bf11e1c0d8da21703659d70676f56b848abff39c39ceac56f5f8"
+    },
+    "normal": {
+      "file": "fabric_pattern_05_normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/fabric_pattern_05/fabric_pattern_05_nor_gl_2k.jpg",
+      "sha256": "3be0b006000145d8c879a381ac5937f6ab51bf7e4720f2ba7c11d3184aec7e15"
+    },
+    "ao": {
+      "file": "fabric_pattern_05_ao.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/fabric_pattern_05/fabric_pattern_05_ao_2k.jpg",
+      "sha256": "d36cc64f4c31c42852dba62a7ef51f04de9aba8f9b11dae40ffd227b0cd02ba7"
+    }
+  }
+}

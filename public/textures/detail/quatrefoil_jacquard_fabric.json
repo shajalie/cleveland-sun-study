@@ -1,0 +1,31 @@
+{
+  "asset": "quatrefoil_jacquard_fabric",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/quatrefoil_jacquard_fabric",
+  "dimensionsMillimeters": [
+    280.11855714681565,
+    283.80000591278076
+  ],
+  "files": {
+    "diff": {
+      "file": "quatrefoil_jacquard_fabric_diff.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/quatrefoil_jacquard_fabric/quatrefoil_jacquard_fabric_diff_2k.jpg",
+      "sha256": "7ecc9e2c7f0e8640d229fefc7f97f0cb5615a73687c258d42072facc31f743cd"
+    },
+    "rough": {
+      "file": "quatrefoil_jacquard_fabric_rough.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/quatrefoil_jacquard_fabric/quatrefoil_jacquard_fabric_rough_2k.jpg",
+      "sha256": "ba6f500f048291368eba303a78b8fcfca80236f1b0ef625cb73761ee87b6851d"
+    },
+    "normal": {
+      "file": "quatrefoil_jacquard_fabric_normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/quatrefoil_jacquard_fabric/quatrefoil_jacquard_fabric_nor_gl_2k.jpg",
+      "sha256": "56526e6c911b17e572a41aae99b0b09f8f67ac3be75b693435a529e2c4dddb5a"
+    },
+    "height": {
+      "file": "quatrefoil_jacquard_fabric_height.png",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/quatrefoil_jacquard_fabric/quatrefoil_jacquard_fabric_disp_2k.png",
+      "sha256": "b92efd532851dee2414b4133b65df51f5a82dedc9a3f44e3a9532012a5d8a1c6"
+    }
+  }
+}

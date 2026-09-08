@@ -1,0 +1,24 @@
+{
+  "source": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/DC_Aerial_Photo/MapServer",
+  "extent": {
+    "xmin": 394687.9203154513,
+    "ymin": 139585.97663644722,
+    "xmax": 394847.9203154513,
+    "ymax": 139745.97663644722,
+    "spatialReference": {
+      "wkid": 26985,
+      "latestWkid": 26985
+    }
+  },
+  "width": 2000,
+  "height": 2000,
+  "sha256": "59633fc7c90b3a5ba93dcecb5de1e60c12350ef82672972c365581851e16d6fe",
+  "acquired": "2025-03-27",
+  "resolutionMeters": 0.08,
+  "listing": "https://www.compass.com/homedetails/3014-Cleveland-Ave-NW-Washington-DC-20008/1UXTV4_pid/",
+  "comparison": "https://www.redfin.com/DC/Washington/3014-Cleveland-Ave-NW-20008/home/9988234",
+  "referencePhotoRange": [
+    0,
+    55
+  ]
+}

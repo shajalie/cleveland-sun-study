@@ -1,0 +1,51 @@
+{
+  "bytes": 176773652,
+  "sha256": "230f9ab59b025eac95b07ee3b684981911493c85f1748fa5f7a77322cca70add",
+  "parts": [
+    {
+      "url": "/scene/house-0.bin",
+      "bytes": 20971520,
+      "sha256": "7582822b1a86054a8d2a0ff22178e5b023c5177df1129df0478361d6ac1e1ae5"
+    },
+    {
+      "url": "/scene/house-1.bin",
+      "bytes": 20971520,
+      "sha256": "5bb70a67164f024fe6fb65eaafc08aa7ebccf51423499006a5d135a5d154b67a"
+    },
+    {
+      "url": "/scene/house-2.bin",
+      "bytes": 20971520,
+      "sha256": "a6cbcd90e6f4fdd5ece44cc77878c7773eb6aedce4db5a55337c23c0d525fc8c"
+    },
+    {
+      "url": "/scene/house-3.bin",
+      "bytes": 20971520,
+      "sha256": "bbe83b8b121d02d682d89cf6de3fa381f6cb993abe26ef722e2aff358df932ea"
+    },
+    {
+      "url": "/scene/house-4.bin",
+      "bytes": 20971520,
+      "sha256": "50cfef973b5062db5666d3f5d2e8c7b4586a1316b6a9868be69ca71706f24133"
+    },
+    {
+      "url": "/scene/house-5.bin",
+      "bytes": 20971520,
+      "sha256": "51946ce50ffa12907749a96e46d0c52659c2580b6fbb8bb91e5300e8fe906af8"
+    },
+    {
+      "url": "/scene/house-6.bin",
+      "bytes": 20971520,
+      "sha256": "f131f15c5e3d5619adc78954e64e45fbdf7e1feeaac93436ae7690c62f4508b4"
+    },
+    {
+      "url": "/scene/house-7.bin",
+      "bytes": 20971520,
+      "sha256": "fbf7c4db7be6da769d887e55a0546868c259b71965adc898fa631b36fb94bc9e"
+    },
+    {
+      "url": "/scene/house-8.bin",
+      "bytes": 9001492,
+      "sha256": "af47ecb1af75fcba8cb9fb99a80110f9b3ed542b3046880d127367d909fba2bc"
+    }
+  ]
+}

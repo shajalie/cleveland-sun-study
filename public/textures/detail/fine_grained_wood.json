@@ -1,0 +1,26 @@
+{
+  "asset": "fine_grained_wood",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/fine_grained_wood",
+  "dimensionsMillimeters": [
+    600.0000238418579,
+    600.0000238418579
+  ],
+  "files": {
+    "diff": {
+      "file": "fine_grained_wood_diff.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/fine_grained_wood/fine_grained_wood_col_2k.jpg",
+      "sha256": "d97b1ab2c5206ac43bc0c42f21878da14f4d02497fd21396399406c03f3755a9"
+    },
+    "normal": {
+      "file": "fine_grained_wood_normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/fine_grained_wood/fine_grained_wood_nor_gl_2k.jpg",
+      "sha256": "c76fcd29434978227db5a35b5b0238da1bee0fb5fa8cdfc6819a76c7ef723f3c"
+    },
+    "rough": {
+      "file": "fine_grained_wood_rough.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/fine_grained_wood/fine_grained_wood_rough_2k.jpg",
+      "sha256": "7e8f5fc146ae7accd3b9deb2a173c1cf253707ccdee5070ce16cefd4ee68f1b7"
+    }
+  }
+}

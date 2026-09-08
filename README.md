@@ -4,7 +4,7 @@ A photo-informed reconstruction of 3014 Cleveland Avenue NW, Washington DC. The 
 
 ## Open on a PC or phone
 
-Download the private Windows release ZIP, extract it, and double-click **START-DAYLIGHT.cmd**. Chrome and an NVIDIA GPU driver are required. Node and Blender are bundled; **no separate Blender installation is needed.**
+Download the [Windows release ZIP](https://github.com/shajalie/cleveland-sun-study/releases/tag/v2.0.0), extract it, and double-click **START-DAYLIGHT.cmd**. Chrome and an NVIDIA GPU driver are required. Node and Blender are bundled; **no separate Blender installation is needed.** See [SAVED-CHECKPOINT.md](SAVED-CHECKPOINT.md) for the reconstruction inputs and restore instructions.
 
 The dashboard offers email-controlled Website sharing, optional Tailscale, and use through existing Moonlight. See WEBSITE-SHARING.md and MOVE-TO-ANOTHER-PC.md. The existing Sites address is a lightweight connection launcher; its separate build excludes the 3D payload entirely. Use npm run build:site only for that website; npm run build creates the full Windows host assets.
 

@@ -1,7 +1,7 @@
 # Windows GPU host: Moonlight or browser streaming
 
 ## Transfer to the RTX 5090 computer
-1. Download the latest private GitHub release's cleveland-daylight-windows.zip and extract it completely.
+1. Download the GitHub release's cleveland-daylight-windows.zip and extract it completely.
 2. Install Google Chrome once if it is absent.
 3. Double-click START-DAYLIGHT.cmd. The local dashboard opens and verifies the actual NVIDIA GPU. No Tailscale installation, login or network setup is required for this step.
 
